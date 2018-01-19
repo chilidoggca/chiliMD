@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>chiliMD</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <%= javascript_include_tag Ckeditor.cdn_url %>
+  </head>
+  <body>
+    <nav>
+      <%= link_to 'chiliMD', root_path %>
+      |
+      <%= link_to 'New Post', new_post_path %>
+      |
+      <%= link_to 'Posts', posts_path %>
+      |
+      <% if user_signed_in? %>
+        <span>Hello, <%= current_user.first_name %>!</span>
+        |
+        <%# if current_user.is_admin? %>
+          <%#=link_to 'Dashboard', admin_dashboard_index_path %>
+          <!-- | -->
+        <%# end %>
+        <%= link_to(
+          'Sign Out',
+          destroy_user_session_path,
+          method: :delete,
+          data: {confirm: 'Do you really want to sign out?'}
+          ) %>
+      <% else %>
+        <%= link_to 'Sign In', new_user_session_path %>
+        |
+        <%= link_to 'Sign Up', new_user_registration_path %>
+      <% end %>
+    </nav>
+    <hr />
+    <div class="container">
+      <% if flash[:notice].present?%>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%=flash[:notice] %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <% elsif flash[:alert].present?%>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%=flash[:alert] %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      <% end %>
+      <%= yield %>
+    </div>
+  </body>
+</html>
