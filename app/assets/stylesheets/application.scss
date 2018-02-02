@@ -18,11 +18,121 @@
 
 
 html {
-  font-family: Helvetica, sans-serif;
+  font-family: 'Roboto', 'Open Sans', sans-serif;
 }
 
 * {
   font-family: inherit;
+}
+
+body {
+  padding-top: 56px;
+}
+
+.navbar.chilimd {
+  color: white;
+  a.navbar-brand:link, a.navbar-brand:visited,
+  a.navbar-brand:hover,a.navbar-brand:active {
+    color: white;
+  }
+  a {
+    color: mistyrose;
+    position: relative;
+    text-decoration: none;
+  }
+  a:hover,a:active {
+    color: white;
+  }
+  a:not(.navbar-brand):before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    bottom: 5px;
+    left: 0;
+    background-color: mistyrose;
+    visibility: hidden;
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
+  }
+  a:not(.navbar-brand):not(.greeting):not(:nth-last-child(2)):not(:last-child):hover:before {
+    visibility: visible;
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+  }
+  .nav-link.nav-left {
+    margin-right: auto;
+  }
+  .nav-link:not(:nth-last-child(2)) {
+    text-transform: uppercase;
+    font-size: 0.9em;
+  }
+  .nav-link:nth-last-child(2) {
+    // text-decoration: underline;
+    a {
+      text-decoration: underline;
+    }
+  }
+  .nav-link:last-child {
+    border: 1px solid mistyrose;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+  form > button.searchbutton {
+    border: 1px solid mistyrose;
+    border-radius: 5px;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    color: mistyrose;
+    background-color: inherit;
+    padding: 0.3em 0.6em;
+    &:hover {
+      color: white;
+    }
+  }
+}
+
+.has-error {
+  .help-block {
+    color: red;
+  }
+}
+
+.jumbobg {
+  // background-image: url('/backgrounds/stock1.jpg');
+  position: absolute;
+  z-index: -1;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  width: 80%;
+  height: 500px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  font-size: 50px;
+  color: lightpink;
+    .brandname{
+      color: white;
+    }
+  text-shadow:
+   -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+     2px 2px 0 #000;
+  // .jumbobg.current{
+  //   width: inherit;
+  //   z-index: 5;
+  //   position: absolute;
+  // }
+  // .jumbobg.next {
+  //   width: inherit;
+  //   z-index: 4;
+  //   position: absolute;
+  // }
 }
 
 @import 'bootstrap';

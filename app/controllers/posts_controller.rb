@@ -1,6 +1,9 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :find_post, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show, :landing]
+
+  def landing
+  end
 
   # GET /posts
   # GET /posts.json
@@ -11,6 +14,11 @@ class PostsController < ApplicationController
   # GET /posts/1
   # GET /posts/1.json
   def show
+    # @commentable = @post
+    @comments = @post.comments
+    @comment = Comment.new
+    @media = @post.media.order(created_at: :desc)
+    @references = @post.references.order(created_at: :asc)
   end
 
   # GET /posts/new
@@ -25,8 +33,8 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    @post = Post.new(post_params)
-
+    @post = current_user.posts.new(post_params)
+    @post.media.each{|medium| medium.user = current_user}
     respond_to do |format|
       if @post.save
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
@@ -42,7 +50,9 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1.json
   def update
     respond_to do |format|
-      if @post.update(post_params)
+      @post.assign_attributes(post_params)
+      @post.media.each{|medium| medium.user = current_user}
+      if @post.save
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
         format.json { render :show, status: :ok, location: @post }
       else
@@ -64,12 +74,15 @@ class PostsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_post
+    def find_post
       @post = Post.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:title, :body, :published)
+      params.require(:post).permit(:title, :body, :published,
+        media_attributes: [:id, :title, :attachment_file, :_destroy],
+        references_attributes: [:id, :body, :url, :doi, :_destroy])
     end
+
 end

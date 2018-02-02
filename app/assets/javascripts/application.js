@@ -15,4 +15,5 @@
 //= require bootstrap
 //= require ckeditor/init
 //= require rails-ujs
+//= require cocoon
 //= require_tree .

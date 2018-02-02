@@ -1,42 +1,52 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>chiliMD</title>
+    <title>
+      <%= if content_for?(:title) then yield(:title) + ' | ' end %>chiliMD
+    </title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
     <%= javascript_include_tag Ckeditor.cdn_url %>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
   </head>
   <body>
-    <nav>
-      <%= link_to 'chiliMD', root_path %>
-      |
-      <%= link_to 'New Post', new_post_path %>
-      |
-      <%= link_to 'Posts', posts_path %>
-      |
-      <% if user_signed_in? %>
-        <span>Hello, <%= current_user.first_name %>!</span>
-        |
-        <%# if current_user.is_admin? %>
-          <%#=link_to 'Dashboard', admin_dashboard_index_path %>
-          <!-- | -->
-        <%# end %>
-        <%= link_to(
-          'Sign Out',
-          destroy_user_session_path,
-          method: :delete,
-          data: {confirm: 'Do you really want to sign out?'}
-          ) %>
-      <% else %>
-        <%= link_to 'Sign In', new_user_session_path %>
-        |
-        <%= link_to 'Sign Up', new_user_registration_path %>
-      <% end %>
-    </nav>
-    <hr />
     <div class="container">
+      <nav class="navbar fixed-top navbar-expand-lg navbar-dark chilimd"  style="background-color: #aa2222;">
+        <%= link_to 'chiliMD', root_path, class: "navbar-brand" %>
+
+        <%= link_to 'New Post', new_post_path, class: "nav-link" %>
+
+        <%= link_to 'Posts', posts_path, class: "nav-link" %>
+
+        <%= link_to 'Media', media_path, class: "nav-link nav-left" %>
+
+        <form class="form-inline">
+          <input class="form-control" type="search" placeholder="Search" style="margin-right: 10px;">
+          <button class="btn searchbutton" type="submit"><%= fa_icon('search 2x') %></button>
+        </form>
+
+        <% if user_signed_in? %>
+          <span class="nav-link">Hello, <%= link_to current_user.first_name, current_user %>!</span>
+
+          <%# if current_user.is_admin? %>
+            <%#=link_to 'Dashboard', admin_dashboard_index_path, class: "nav-link" %>
+
+          <%# end %>
+          <%= link_to(
+            'Sign Out',
+            destroy_user_session_path,
+            method: :delete,
+            data: {confirm: 'Do you really want to sign out?'},
+            class: "nav-link"
+            ) %>
+        <% else %>
+          <%= link_to 'Sign In', new_user_session_path, class: "nav-link" %>
+
+          <%= link_to 'Sign Up', new_user_registration_path, class: "nav-link" %>
+        <% end %>
+    </nav>
       <% if flash[:notice].present?%>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
           <%=flash[:notice] %>

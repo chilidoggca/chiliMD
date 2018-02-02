@@ -14,7 +14,7 @@
     <% @posts.each do |post| %>
       <tr>
         <td><%= post.title %></td>
-        <td><%= post.body.html_safe %></td>
+        <td><%= sanitize post.body.first(100) %></td>
         <td><%= post.published %></td>
         <td><%= link_to 'Show', post %></td>
         <td><%= link_to 'Edit', edit_post_path(post) %></td>

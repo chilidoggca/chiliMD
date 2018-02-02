@@ -1,0 +1,16 @@
+<% @comments.each do |comment| %>
+  <div class="row commentshowdiv">
+    <div class="col-2 col-md-1 p-2">
+      <%= image_tag attachment_url(comment.user, :profile_image, :fill, 50, 50, fallback: 'defaultprofileimage'), class: 'commentsprofileimage' %>
+    </div>
+    <div class="col-9 col-md-10 p-2">
+      <div class="commentshowheader">
+        <%=link_to comment.user.full_name, comment.user %>
+        <%=time_ago_in_words(comment.created_at) %> ago
+      </div>
+      <div class="commentshowbody">
+        <%= comment.body %>
+      </div>
+    </div>
+  </div>
+<% end %>

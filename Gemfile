@@ -41,8 +41,17 @@ gem 'refile', require: "refile/rails", github: 'refile/refile', branch: 'master'
 gem 'refile-mini_magick', github: 'refile/refile-mini_magick', branch: 'master'
 #gem 'sinatra', github: 'sinatra/sinatra'
 
+# cocoon allows nested attributes but requires underscore/bootstrap
+gem 'underscore-rails'
+gem 'cocoon'
+gem 'mechanize'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
+
+gem 'simple_form'
+gem 'friendly_id', '~> 5.2.3'
+gem 'faraday' #for http requests
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

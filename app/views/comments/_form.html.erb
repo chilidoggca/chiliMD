@@ -1,0 +1,4 @@
+<%= simple_form_for [commentable, @comment] do |f| %>
+  <%= f.input :body, inline_label: :body, label: false, rows: 8%>
+  <%= f.submit class: 'btn btn-primary' %>
+<% end %>

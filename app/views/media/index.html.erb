@@ -1,0 +1,11 @@
+<h1>Media</h1>
+
+<% @media.each do |medium| %>
+  <ul>
+    <li><%= link_to medium.title, medium %></li>
+  </ul>
+<% end %>
+
+<br>
+
+<%= link_to 'New Medium', new_medium_path %>

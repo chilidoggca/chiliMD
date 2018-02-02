@@ -1,0 +1,12 @@
+<div class="row nested-fields pt-2 pb-0">
+  <div class="col-md-12">
+    <%= link_to_remove_association "<i class='fa fa-minus' style='color:red'></i> remove media file".html_safe, f %>
+  </div>
+  <div class="col-md-6">
+    <%= f.input :title, placeholder: 'Media Title', label: false %>
+  </div>
+  <div class="col-md-6">
+    <%= f.attachment_field :attachment_file, class: 'form-control' %>
+    <%#= form.input :attachment_file, as: :attachment, direct: true, presigned: true %>
+  </div>
+</div>

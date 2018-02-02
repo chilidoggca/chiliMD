@@ -1,0 +1,17 @@
+<% @media.each do |medium| %>
+<p>
+  <strong>Title:</strong>
+  <%= medium.title %>
+</p>
+
+<p>
+  <%if medium.is_image? %>
+    <%=link_to image_tag(attachment_url(medium, :attachment_file, :limit, 200, 200)), attachment_url(medium, :attachment_file) %>
+  <% elsif medium.is_audio? %>
+    <%= audio_tag attachment_url(medium, :attachment_file), controls: true, width: '400px', autoplay: false %>
+  <% elsif medium.is_video? %>
+    <%=link_to video_tag attachment_url(medium, :attachment_file), controls: false, width: '400px', autoplay: false %>
+  <% end %>
+</p>
+
+<%end%>

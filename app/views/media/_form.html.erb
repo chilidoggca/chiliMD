@@ -1,0 +1,7 @@
+<%= simple_form_for @medium do |form| %>
+  <%= form.input :title %>
+  <%= form.input :description %>
+  <%= form.attachment_field :attachment_file, class: 'form-control' %>
+  <%#= form.input :attachment_file, as: :attachment, direct: true, presigned: true %>
+  <%= form.submit class: 'btn btn-primary my-3' %>
+<% end %>

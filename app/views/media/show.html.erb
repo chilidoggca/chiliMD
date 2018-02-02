@@ -1,0 +1,28 @@
+<% title @medium.title %>
+<h1><%= @medium.title %></h1>
+
+<p>
+  <%if @medium.is_image? %>
+    <%=link_to image_tag(attachment_url(@medium, :attachment_file, :limit, 200, 200)), attachment_url(@medium, :attachment_file) %>
+  <% elsif @medium.is_audio? %>
+    <%= audio_tag attachment_url(@medium, :attachment_file), controls: true, width: '400px', autoplay: false %>
+  <% elsif @medium.is_video? %>
+    <%= video_tag attachment_url(@medium, :attachment_file), controls: false, width: '400px', autoplay: false %>
+  <% end %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @medium.description %>
+</p>
+
+<p>
+  <%= link_to 'Delete Media', @medium, method: :delete, data: { confirm: 'Are you sure?' } %>
+</p>
+
+<%#= link_to 'Edit', edit_medium_path(@medium) %>
+<%#= link_to 'Back', media_path %>
+
+<h2>Comments</h2>
+<%= render 'comments/comments' %>
+<%= render 'comments/form', locals: { commentable: @medium } %>

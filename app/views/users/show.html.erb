@@ -1,0 +1,63 @@
+<% title @user.full_name + '\'s Profile' %>
+<div class="row p-3" style="display: flex; align-items: center">
+  <%= image_tag attachment_url(@user, :profile_image, :fill, 100, 100, fallback: 'defaultprofileimage'), class: 'usershowprofileimage' %>
+  <div>
+    <h1>User Profile</h1>
+    Subscribe | Subscribers
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="border p-3 mr-1">
+      <strong>First Name:</strong> <%= @user.first_name %><br />
+      <strong>Last Name:</strong> <%= @user.last_name %><br />
+      <strong>Email:</strong> <%= @user.email %><br />
+      <%= link_to "Edit Profile", edit_user_registration_path %>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="border p-3 ml-1">
+      <strong>All Content:</strong> <%= @user.contributions.size %><br />
+      <strong>Posts:</strong> <%= @user.posts.size %><br />
+      <strong>Images:</strong> <%= @user.images.size %><br />
+      <strong>Audios:</strong> <%= @user.audios.size %><br />
+      <strong>Videos:</strong> <%= @user.videos.size %><br />
+    </div>
+  </div>
+</div>
+<h3>All Contributions</h3>
+<% @user.contributions.each do |c| %>
+<p>
+  <%= link_to c.title, c %>
+</p>
+<%end%>
+<h3>Posts (By Most Recent)</h3>
+<% @user.posts.created_at_desc.each do |p| %>
+<p>
+  <%= link_to p.title, p %>
+</p>
+<%end%>
+<h3>All Media (By Most Recent)</h3>
+<% @user.media.created_at_desc.each do |m| %>
+<p>
+  <%= link_to m.title, m %>
+</p>
+<%end%>
+<h3>Images</h3>
+<% @user.images.each do |m| %>
+<p>
+  <%= link_to m.title, m %>
+</p>
+<%end%>
+<h3>Audios</h3>
+<% @user.audios.each do |m| %>
+<p>
+  <%= link_to m.title, m %>
+</p>
+<%end%>
+<h3>Videos</h3>
+<% @user.videos.each do |m| %>
+<p>
+  <%= link_to m.title, m %>
+</p>
+<%end%>

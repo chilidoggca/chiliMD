@@ -5,20 +5,73 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, omniauth_providers: [:facebook, :google_oauth2]
 
+  has_many :media, dependent: :nullify
+  has_many :posts, dependent: :nullify
+  has_many :comments, dependent: :nullify
+  attachment :profile_image, destroy: true
 
- def self.from_omniauth(access_token)
-   data = access_token.info
-   user = User.where(email: data['email']).first
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+  validates :email, presence: true, uniqueness: true, format: VALID_EMAIL_REGEX
 
-   # Uncomment the section below if you want users to be created if they don't exist
-   unless user
-     puts data
-       user = User.create(first_name: data['first_name'],
-          last_name: data['last_name'],
-          email: data['email'],
-          password: Devise.friendly_token[0,20]
-       )
-   end
-   user
- end
+  validates :first_name, :last_name, presence: true
+
+  before_create :generate_api_key
+
+  extend FriendlyId
+  friendly_id :slug_candidates, use: [:slugged, :history, :finders]
+
+  def slug_candidates
+    [:first_name, :last_name]
+  end
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
+
+  def images
+    self.media.images
+  end
+
+  def audios
+    self.media.audios
+  end
+
+  def videos
+    self.media.videos
+  end
+
+  def contributions
+    self.media.to_a.concat(self.posts).sort{|x,y|y.created_at - x.created_at} #not quite working as intended
+  end
+
+  def self.from_omniauth(access_token)
+  data = access_token.info
+  user = User.where(email: data['email']).first
+
+  # Uncomment the section below if you want users to be created if they don't exist
+  unless user
+    puts data
+     user = User.create(first_name: data['first_name'],
+        last_name: data['last_name'],
+        email: data['email'],
+        password: Devise.friendly_token[0,20]
+     )
+    end
+    user
+  end
+
+  private
+  def generate_api_key
+    # We may accidentally generate an api key that a user already owns. To
+    # prevent saving a duplicate, we'll loop until we can't find any users with
+    # that key.
+    loop do
+      # SecureRandom.hex(32) will generate a large string of random hex characters.
+      # (i.e. A-F & 0-9). We'll use this as the user's api key for
+      # authentification with our web api.
+      self.api_key = SecureRandom.hex(32)
+      break unless User.exists?(api_key: api_key)
+    end
+  end
+
 end
