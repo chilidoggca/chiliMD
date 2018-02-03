@@ -48,7 +48,9 @@ gem 'mechanize'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-
+gem 'cancancan'
+gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
+gem 'cowsay'
 gem 'simple_form'
 gem 'friendly_id', '~> 5.2.3'
 gem 'faraday' #for http requests

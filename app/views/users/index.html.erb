@@ -1,0 +1,12 @@
+<% @users.each do |user| %>
+  <div>
+    <%=user.id%> | <%=link_to user.full_name, user %> | <%=user.location%>
+    <% if user.profile_image.present? %>
+      <%= image_tag attachment_url(user, :profile_image, :fill, 100, 100, fallback: 'defaultprofileimage'), class: 'usershowprofileimage' %><br />
+    <% elsif user.default_image.present? %>
+      <%= image_tag user.default_image, class: "usershowprofileimage"%><br />
+      <%#= image_tag attachment_url(user, :default_image, :fill, 100, 100, fallback: 'defaultprofileimage'), class: 'usershowprofileimage' %>
+      <!-- <img src="<%#=user.default_image%>" class="usershowprofileimage"> -->
+    <% end %>
+  </div>
+<% end %>

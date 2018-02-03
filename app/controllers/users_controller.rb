@@ -6,6 +6,10 @@ class UsersController < ApplicationController
 
   end
 
+  def index
+    @users = User.order(created_at: :asc)
+  end
+
   # def update
   #   respond_to do |format|
   #     if @user.update(user_params)

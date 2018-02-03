@@ -13,56 +13,73 @@
   </head>
   <body>
     <div class="container">
-      <nav class="navbar fixed-top navbar-expand-lg navbar-dark chilimd"  style="background-color: #aa2222;">
-        <%= link_to 'chiliMD', root_path, class: "navbar-brand" %>
+      <div class="headerdiv">
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark chilimd">
+          <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerTarget">
+            <span class="navbar-toggler-icon"></span>
+          </button> -->
+          <%= link_to fa_icon('bars 2x'), root_path, class: "nav-link bar" %>
 
-        <%= link_to 'New Post', new_post_path, class: "nav-link" %>
+          <%= link_to raw('chiliMD<span class="appversion">alpha</span>'), root_path, class: "navbar-brand" %>
 
-        <%= link_to 'Posts', posts_path, class: "nav-link" %>
+          <%= link_to 'Posts', posts_path, class: "nav-link" %>
 
-        <%= link_to 'Media', media_path, class: "nav-link nav-left" %>
+          <%= link_to 'Media', media_path, class: "nav-link nav-left" %>
 
-        <form class="form-inline">
-          <input class="form-control" type="search" placeholder="Search" style="margin-right: 10px;">
-          <button class="btn searchbutton" type="submit"><%= fa_icon('search 2x') %></button>
-        </form>
+          <form class="form-inline">
+            <input class="form-control" type="search" placeholder="Search" style="margin-right: 10px;" autofocus>
+            <button class="btn searchbutton" type="submit"><%= fa_icon('search 2x') %></button>
+          </form>
 
-        <% if user_signed_in? %>
-          <span class="nav-link">Hello, <%= link_to current_user.first_name, current_user %>!</span>
+          <% if user_signed_in? %>
+            <span class="nav-link">Hello, <%= link_to current_user.first_name, current_user %>!</span>
 
-          <%# if current_user.is_admin? %>
-            <%#=link_to 'Dashboard', admin_dashboard_index_path, class: "nav-link" %>
+            <%# if current_user.is_admin? %>
+              <%#=link_to 'Dashboard', admin_dashboard_index_path, class: "nav-link" %>
 
-          <%# end %>
-          <%= link_to(
-            'Sign Out',
-            destroy_user_session_path,
-            method: :delete,
-            data: {confirm: 'Do you really want to sign out?'},
-            class: "nav-link"
-            ) %>
-        <% else %>
-          <%= link_to 'Sign In', new_user_session_path, class: "nav-link" %>
+            <%# end %>
+            <%= link_to(
+              'Sign Out',
+              destroy_user_session_path,
+              method: :delete,
+              data: {confirm: 'Do you really want to sign out?'},
+              class: "nav-link signout"
+              ) %>
+          <% else %>
+            <%= link_to 'Sign In', new_user_session_path, class: "nav-link" %>
 
-          <%= link_to 'Sign Up', new_user_registration_path, class: "nav-link" %>
+            <%= link_to 'Sign Up', new_user_registration_path, class: "nav-link" %>
+          <% end %>
+        </nav>
+      </div>
+      <div class="sidebar hidesidebar">
+        <p><%= fa_icon('file') %> <%=link_to 'New Post', new_post_path %></p>
+        <p><%= fa_icon('upload') %> <%=link_to 'New Medium', new_medium_path %></p>
+      </div>
+      <script type="text/javascript">
+      $( ".nav-link.bar" ).click(function(event) {
+        event.preventDefault();
+        $( "div.sidebar" ).toggleClass("hidesidebar");
+      });
+      </script>
+      <div class="maindiv">
+        <% if flash[:notice].present?%>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <%=flash[:notice] %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        <% elsif flash[:alert].present?%>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%=flash[:alert] %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
         <% end %>
-    </nav>
-      <% if flash[:notice].present?%>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-          <%=flash[:notice] %>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      <% elsif flash[:alert].present?%>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          <%=flash[:alert] %>
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      <% end %>
-      <%= yield %>
+        <%= yield %>
+      </div>
     </div>
   </body>
 </html>

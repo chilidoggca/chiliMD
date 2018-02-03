@@ -1,6 +1,12 @@
 <% title @user.full_name + '\'s Profile' %>
 <div class="row p-3" style="display: flex; align-items: center">
-  <%= image_tag attachment_url(@user, :profile_image, :fill, 100, 100, fallback: 'defaultprofileimage'), class: 'usershowprofileimage' %>
+  <% if @user.profile_image.present? %>
+    <%= image_tag attachment_url(@user, :profile_image, :fill, 100, 100, fallback: 'defaultprofileimage'), class: 'usershowprofileimage' %>
+  <% elsif @user.default_image.present? %>
+    <%= image_tag @user.default_image, class: "usershowprofileimage"%>
+    <%#= image_tag attachment_url(@user, :default_image, :fill, 100, 100, fallback: 'defaultprofileimage'), class: 'usershowprofileimage' %>
+    <!-- <img src="<%=@user.default_image%>" class="usershowprofileimage"> -->
+  <% end %>
   <div>
     <h1>User Profile</h1>
     Subscribe | Subscribers

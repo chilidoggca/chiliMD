@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   # devise routes
   devise_for :users, skip: [:sessions], controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
-  resources :users, only: [:show]
+  resources :users, only: [:index, :show]
   devise_scope :user do
     get 'signin', to: 'devise/sessions#new', as: :new_user_session
     post 'signin', to: 'devise/sessions#create', as: :user_session
@@ -19,7 +19,6 @@ Rails.application.routes.draw do
 
   resources :posts do
     resources :comments, only: [:index, :new, :create, :destroy], shallow: true
-    # resources :media, shallow: true #not making a difference in saving to database
   end
 
   resources :media do
