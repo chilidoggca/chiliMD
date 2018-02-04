@@ -93,40 +93,34 @@ users = User.all
 #   end
 # end
 
-users.each do |user|
-  rand(1..3).times.each do
-    Post.create(
-      title: Faker::Hipster.sentence(3, false, 4),
+# users.each do |user|
+#   rand(1..3).times.each do
+#     Post.create(
+#       title: Faker::Hipster.sentence(3, false, 4),
+#       body: Faker::Hipster.paragraph(2, false, 5),
+#       published: true,
+#       user: user
+#     )
+#   end
+# end
+
+posts = Post.all
+# puts Cowsay.say("Created #{posts.count} posts", :ghostbusters)
+#
+posts.each do |post|
+  rand(1..5).times.each do
+    Comment.create(
+      commentable: post,
       body: Faker::Hipster.paragraph(2, false, 5),
-      published: true,
-      user: user
+      user: users.sample,
     )
   end
 end
 
-posts = Post.all
-puts Cowsay.say("Created #{posts.count} posts", :ghostbusters)
-#
-# posts.each do |post|
-#   rand(1..3).times.each do
-#     s_t = DateTime.new(2018,1,20,8) + rand(1...12).hours + rand(1...100).days
-#     e_t = s_t + rand(1...4).hours
-#     Event.create(
-#       title: Faker::Book.title,
-#       description: Faker::Lorem.paragraph,
-#       # TODO change into a location using Faker::Address
-#       location: Faker::Address.street_address,
-#       start_time: s_t,
-#       end_time: e_t,
-#       post_id: post.id
-#     )
-#   end
-# end
-#
-#
-# events = Event.all
-#
-# puts Cowsay.say("Created #{events.count} events", :moose)
+
+comments = Comment.all
+
+puts Cowsay.say("Created #{comments.count} comments", :moose)
 #
 # ["Javascript", "Java", "Ruby", "Rails", "HTML", "CSS"].each do |t|
 #   Tag.create(

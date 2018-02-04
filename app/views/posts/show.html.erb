@@ -1,9 +1,27 @@
 <% title @post.title %>
 <h1><%= @post.title %></h1>
 
-<%= link_to 'Edit', edit_post_path(@post), class: 'btn btn-info' %><br />
-<%#= link_to 'Back', posts_path %>
+<div class="row p-3" style="display: flex; align-items: center">
+  <% if @post.user.profile_image.present? %>
+    <%= image_tag attachment_url(@post.user, :profile_image, :fill, 100, 100, fallback: 'defaultprofileimage'), class: 'authorsprofileimage' %>
+  <% elsif @post.user.default_image.present? %>
+    <%= image_tag @post.user.default_image, class: "authorsprofileimage"%>
+  <% end %>
+  <div class="linktoauthorshow">
+    <%=link_to @post.user&.full_name, @post.user %><br />
+    Created <%= @post.created_at.strftime("%b %d %Y") %><br />
+    #post.author.interests<br />
+    #follow(post.author)<br />
+  </div>
+</div>
+
+<% if can?(:crud, @post) %>
+<p>
+  <%= link_to 'Delete', @post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+  <%= link_to 'Edit', edit_post_path(@post), class: 'btn btn-warning' %><br />
+</p>
 <strong>Published:</strong> <%= @post.published %><br />
+<% end %>
 
 <p>
   <!-- <strong>Body:</strong> -->
@@ -11,15 +29,19 @@
 </p>
 
 <% if @post.media.present? %>
-<p><strong>Attached Media</strong></p>
-<%= render 'show_media' %>
+  <h5 style="text-transform:uppercase; font-weight: bold">Attached Media</h5>
+  <p>
+    <%= render 'show_media' %>
+  </p>
 <% end %>
 
 <% if @post.references.present? %>
-<p><strong style="text-transform:uppercase">References</strong></p>
-<%= render 'show_reference' %>
+  <h5 style="text-transform:uppercase; font-weight: bold">References</h5>
+  <p>
+    <%= render 'show_reference' %>
+  </p>
 <% end %>
 
-<h2>Comments</h2>
-<%= render 'comments/comments' %>
+<h3>Comments</h3>
 <%= render partial: 'comments/form', locals: { commentable: @post } %>
+<%= render 'comments/comments' %>

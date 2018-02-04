@@ -169,7 +169,9 @@ div.sidebar {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: 50% 50%;
-  width: 80%;
+  width: 100%;
+  top: 55px;
+  left: 0px;
   height: 500px;
   display: flex;
   justify-content: flex-end;
@@ -177,20 +179,20 @@ div.sidebar {
   font-size: 50px;
   font-weight: 500;
   span.brandname-pt1 {
-    background-image: linear-gradient(0deg, gold 25%, gray 35%, white 60%, white);
+    background-image: linear-gradient(0deg, gold 25%, gray 30%, white 55%, white);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: white;
     position: relative;
-    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.8);
+    -webkit-text-stroke: 2px rgba(100, 100, 100, 0.8);
   }
   span.brandname-pt2 {
-    background-image: linear-gradient(0deg, gold 25%, palevioletred 35%, lightpink 60%, lightpink);
+    background-image: linear-gradient(0deg, gold 25%, palevioletred 30%, lightpink 55%, white);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     color: lightpink;
     position: relative;
-    -webkit-text-stroke: 1px rgba(0, 0, 0, 0.8);
+    -webkit-text-stroke: 2px rgba(200, 50, 50, 0.8);
   }
   // .jumbobg.current{
   //   width: inherit;

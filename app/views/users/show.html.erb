@@ -8,7 +8,7 @@
     <!-- <img src="<%=@user.default_image%>" class="usershowprofileimage"> -->
   <% end %>
   <div>
-    <h1>User Profile</h1>
+    <h1><%=@user.full_name%>'s Profile</h1>
     Subscribe | Subscribers
   </div>
 </div>
@@ -18,7 +18,9 @@
       <strong>First Name:</strong> <%= @user.first_name %><br />
       <strong>Last Name:</strong> <%= @user.last_name %><br />
       <strong>Email:</strong> <%= @user.email %><br />
-      <%= link_to "Edit Profile", edit_user_registration_path %>
+      <% if can?(:crud, @user) %>
+        <%= link_to "Edit Profile", edit_user_registration_path %>
+      <% end %>
     </div>
   </div>
   <div class="col-md-6">

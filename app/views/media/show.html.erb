@@ -1,6 +1,27 @@
 <% title @medium.title %>
 <h1><%= @medium.title %></h1>
 
+<div class="row p-3" style="display: flex; align-items: center">
+  <% if @medium.user.profile_image.present? %>
+    <%= image_tag attachment_url(@medium.user, :profile_image, :fill, 100, 100, fallback: 'defaultprofileimage'), class: 'authorsprofileimage' %>
+  <% elsif @medium.user.default_image.present? %>
+    <%= image_tag @medium.user.default_image, class: "authorsprofileimage"%>
+  <% end %>
+  <div class="linktoauthorshow">
+    <%=link_to @medium.user&.full_name, @medium.user %><br />
+    Created <%= @medium.created_at.strftime("%b %d %Y") %><br />
+    #medium.author.interests<br />
+    #follow(medium.author)<br />
+  </div>
+</div>
+
+<%if can?(:crud, @medium) %>
+<p>
+  <%= link_to 'Delete Medium', @medium, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+  <%= link_to 'Edit', edit_medium_path(@medium), class: 'btn btn-warning' %>
+</p>
+<% end %>
+
 <p>
   <%if @medium.is_image? %>
     <%=link_to image_tag(attachment_url(@medium, :attachment_file, :limit, 200, 200)), attachment_url(@medium, :attachment_file) %>
@@ -16,13 +37,6 @@
   <%= @medium.description %>
 </p>
 
-<p>
-  <%= link_to 'Delete Media', @medium, method: :delete, data: { confirm: 'Are you sure?' } %>
-</p>
-
-<%#= link_to 'Edit', edit_medium_path(@medium) %>
-<%#= link_to 'Back', media_path %>
-
-<h2>Comments</h2>
-<%= render 'comments/comments' %>
+<h3>Comments</h3>
 <%= render partial: 'comments/form', locals: { commentable: @medium } %>
+<%= render 'comments/comments' %>

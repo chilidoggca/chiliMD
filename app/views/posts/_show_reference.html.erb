@@ -1,5 +1,6 @@
 <% @references.each do |reference| %>
-<p>
+
+<div class="show_reference_div">
   <% if reference.doi.present? %>
     <%=reference.body%> <%=link_to fa_icon('external-link'), reference.url, target: "_blank" %>
     <!-- <%#=reference.body%> doi: <%#=link_to reference.doi, reference.url, target: "_blank" %> -->
@@ -8,6 +9,6 @@
   <%else%>
     <%=reference.body %>
   <% end %>
-</p>
+</div>
 
 <%end%>

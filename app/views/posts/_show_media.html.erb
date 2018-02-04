@@ -1,17 +1,29 @@
 <% @media.each do |medium| %>
-<p>
-  <strong>Title:</strong>
-  <%= medium.title %>
-</p>
 
-<p>
-  <%if medium.is_image? %>
-    <%=link_to image_tag(attachment_url(medium, :attachment_file, :limit, 200, 200)), attachment_url(medium, :attachment_file) %>
-  <% elsif medium.is_audio? %>
-    <%= audio_tag attachment_url(medium, :attachment_file), controls: true, width: '400px', autoplay: false %>
-  <% elsif medium.is_video? %>
-    <%=link_to video_tag attachment_url(medium, :attachment_file), controls: false, width: '400px', autoplay: false %>
-  <% end %>
-</p>
+<div class="show_medium_div border p-1 my-1" style="width: 250px; height: 250px; overflow: hidden; display:inline-flex; flex-direction:column">
+  <div class="medium_content">
+    <%if medium.is_image? %>
+      <%=link_to image_tag(attachment_url(medium, :attachment_file, :fill, 240, 200)), medium %>
+    <% elsif medium.is_audio? %>
+      <%= audio_tag attachment_url(medium, :attachment_file), controls: true, width: '400px', autoplay: false %>
+    <% elsif medium.is_video? %>
+      <%=link_to video_tag attachment_url(medium, :attachment_file), controls: false, width: '400px', autoplay: false %>
+    <% end %>
+  </div>
+  <div class="medium_caption">
+    <h6 style="text-overflow:ellipsis;"><%= medium.title %></h6>
+  </div>
+</div>
+
+
+<!-- <div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="..." alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Card title</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Go somewhere</a>
+  </div>
+</div> -->
+
 
 <%end%>

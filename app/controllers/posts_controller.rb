@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :find_post, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show, :landing]
+  before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def landing
   end
@@ -83,6 +84,13 @@ class PostsController < ApplicationController
       params.require(:post).permit(:title, :body, :published,
         media_attributes: [:id, :title, :attachment_file, :_destroy],
         references_attributes: [:id, :body, :url, :doi, :_destroy])
+    end
+
+    def authorize_user!
+      unless can?(:crud, @post)
+        flash[:alert] = "Access Denied!"
+        redirect_to @post
+      end
     end
 
 end
