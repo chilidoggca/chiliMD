@@ -18,11 +18,15 @@ Rails.application.routes.draw do
   # get "/auth/:provider/callback" => "authentications#create"
 
   resources :posts do
-    resources :comments, only: [:index, :new, :create, :destroy], shallow: true
+    resources :comments, only: [:index, :new, :create, :destroy], shallow: true do
+      resources :votes, shallow: true, only: [:create, :update, :destroy]
+    end
   end
 
   resources :media do
-    resources :comments, only: [:index, :new, :create, :destroy], shallow: true
+    resources :comments, only: [:index, :new, :create, :destroy], shallow: true do
+      resources :votes, shallow: true, only: [:create, :update, :destroy]
+    end
   end
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

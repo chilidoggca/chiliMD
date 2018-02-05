@@ -47,5 +47,12 @@ class Ability
       user == u
     end
 
+    can :vote, Comment do |comment|
+      comment.user != user
+    end
+    can :crud, Vote do |vote|
+      vote.user == user
+    end
+
   end
 end

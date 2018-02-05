@@ -34,9 +34,9 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    @post = current_user.posts.new(post_params)
-    @post.media.each{|medium| medium.user = current_user}
     respond_to do |format|
+      @post = current_user.posts.new(post_params)
+      @post.media.each{|medium| medium.user = current_user}
       if @post.save
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
         format.json { render :show, status: :created, location: @post }

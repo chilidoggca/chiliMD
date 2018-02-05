@@ -1,6 +1,7 @@
 class MediaController < ApplicationController
   before_action :find_medium, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   # GET /media
   # GET /media.json
@@ -14,6 +15,7 @@ class MediaController < ApplicationController
     @commentable = @medium
     @comments = @commentable.comments
     @comment = Comment.new
+    @references = @medium.references.order(created_at: :asc)
   end
 
   # GET /media/new
@@ -28,10 +30,8 @@ class MediaController < ApplicationController
   # POST /media
   # POST /media.json
   def create
-    @medium = Medium.new(medium_params)
-    @medium.user = current_user
-
     respond_to do |format|
+      @medium = current_user.media.new(medium_params)
       if @medium.save
         format.html { redirect_to @medium, notice: 'Medium was successfully created.' }
         format.json { render :show, status: :created, location: @medium }
@@ -44,6 +44,7 @@ class MediaController < ApplicationController
 
   def update
     respond_to do |format|
+      # @medium.assign_attributes(medium_params)
       if @medium.update(medium_params)
         format.html { redirect_to @medium, notice: 'Medium was successfully updated.' }
         format.json { render :show, status: :ok, location: @medium }
@@ -72,7 +73,15 @@ class MediaController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def medium_params
-    params.require(:medium).permit(:title, :description, :attachment_file)
+    params.require(:medium).permit(:title, :description, :attachment_file,
+      references_attributes: [:id, :body, :url, :doi, :_destroy])
+  end
+
+  def authorize_user!
+    unless can?(:crud, @medium)
+      flash[:alert] = "Access Denied!"
+      redirect_to @medium
+    end
   end
 
 end

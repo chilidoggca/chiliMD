@@ -1,5 +1,9 @@
-<% @comments.each do |comment| %>
+<% @comments.sort_by{ |comment| comment.votes_result }.reverse.each do |comment| %>
   <div class="row commentshowdiv">
+    <div class="col-2 col-md-1 p-2">
+      <% user_vote = current_user.votes.find_by_comment_id(comment) if user_signed_in? %>
+      <%= comment_vote(user_vote, comment).html_safe if user_signed_in? %>
+    </div>
     <div class="col-2 col-md-1 p-2">
       <% if comment.user.default_image? %>
         <%= image_tag comment.user.default_image, class: 'commentsprofileimage' %>
@@ -7,7 +11,7 @@
         <%= image_tag attachment_url(comment.user, :profile_image, :fill, 50, 50, fallback: 'defaultprofileimage'), class: 'commentsprofileimage' %>
       <% end %>
     </div>
-    <div class="col-9 col-md-10 p-2">
+    <div class="col-7 col-md-9 p-2">
       <div class="commentshowheader linktoauthorshow">
         <%=link_to comment.user.full_name, comment.user %>
         <%=time_ago_in_words(comment.created_at) %> ago

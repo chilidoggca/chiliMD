@@ -1,7 +1,15 @@
-<%= simple_form_for @medium do |form| %>
-  <%= form.input :title %>
-  <%= form.input :description %>
-  <%= form.attachment_field :attachment_file, class: 'form-control' %>
-  <%#= form.input :attachment_file, as: :attachment, direct: true, presigned: true %>
-  <%= form.submit class: 'btn btn-primary my-3' %>
+<%= simple_form_for @medium do |f| %>
+  <%= f.input :title, placeholder: 'Title', label: false %>
+  <%= f.input :description, placeholder: 'Description', label: false %>
+  <%= f.attachment_field :attachment_file, class: 'form-control' %>
+  <div id="references" class="border my-2 p-2">
+    <strong>References</strong>
+    <%= f.simple_fields_for :references do   |ref| %>
+      <%= render 'shared/reference_fields', f: ref %>
+    <% end %>
+    <div class="links">
+      <%= link_to_add_association "<i class='fa fa-plus' style='color:green'></i> add reference".html_safe, f, :references, partial: 'shared/reference_fields' %>
+    </div>
+  </div>
+  <%= f.submit class: 'btn btn-primary my-3' %>
 <% end %>

@@ -1,5 +1,5 @@
 class Reference < ApplicationRecord
-  belongs_to :post
+  belongs_to :referenceable, polymorphic: true, inverse_of: :reference
 
   validates :body, presence: true
 

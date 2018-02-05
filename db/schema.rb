@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180203171606) do
+ActiveRecord::Schema.define(version: 20180204180204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,16 @@ ActiveRecord::Schema.define(version: 20180203171606) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
+  create_table "likes", force: :cascade do |t|
+    t.string "likeable_type"
+    t.bigint "likeable_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["likeable_type", "likeable_id"], name: "index_likes_on_likeable_type_and_likeable_id"
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
   create_table "media", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -80,13 +90,14 @@ ActiveRecord::Schema.define(version: 20180203171606) do
   end
 
   create_table "references", force: :cascade do |t|
-    t.bigint "post_id"
     t.string "body"
     t.string "url"
     t.string "doi"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["post_id"], name: "index_references_on_post_id"
+    t.string "referenceable_type"
+    t.bigint "referenceable_id"
+    t.index ["referenceable_type", "referenceable_id"], name: "index_references_on_referenceable_type_and_referenceable_id"
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -141,11 +152,23 @@ ActiveRecord::Schema.define(version: 20180203171606) do
     t.index ["user_id"], name: "index_users_on_user_id"
   end
 
+  create_table "votes", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "comment_id"
+    t.boolean "is_up"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_votes_on_comment_id"
+    t.index ["user_id"], name: "index_votes_on_user_id"
+  end
+
   add_foreign_key "comments", "users"
+  add_foreign_key "likes", "users"
   add_foreign_key "media", "posts"
   add_foreign_key "media", "users"
   add_foreign_key "posts", "users"
-  add_foreign_key "references", "posts"
   add_foreign_key "taggings", "tags"
   add_foreign_key "users", "users"
+  add_foreign_key "votes", "comments"
+  add_foreign_key "votes", "users"
 end

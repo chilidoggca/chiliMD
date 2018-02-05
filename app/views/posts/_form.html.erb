@@ -1,16 +1,4 @@
 <%= simple_form_for @post do |f| %>
-  <% if post.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
-
-      <ul>
-      <% post.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
   <%= f.input :title, placeholder: 'Title', label: false %>
   <%= f.cktext_area :body, rows: 16 %>
   <div id="media" class="border my-2 p-2">

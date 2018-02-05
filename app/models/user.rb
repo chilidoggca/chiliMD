@@ -8,6 +8,13 @@ class User < ApplicationRecord
   has_many :media, dependent: :nullify
   has_many :posts, dependent: :nullify
   has_many :comments, dependent: :nullify
+
+  # has_many :likes, dependent: :destroy
+  # has_many :liked_likeables, through: :likes, source: :likeable
+  #
+  has_many :votes, dependent: :destroy
+  has_many :voted_comments, through: :votes, source: :comment
+
   attachment :profile_image, destroy: true
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i

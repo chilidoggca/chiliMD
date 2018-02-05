@@ -7,6 +7,12 @@ class Medium < ApplicationRecord
   has_many :taggings, as: :taggable, dependent: :destroy
   has_many :tags, as: :taggable, through: :taggings
 
+  has_many :references, as: :referenceable, dependent: :destroy, inverse_of: :referenceable
+  accepts_nested_attributes_for :references, reject_if: :all_blank, allow_destroy: true
+
+  has_many :likes, as: :likeable, dependent: :destroy
+  has_many :likers, through: :likes, source: :user
+
   validates(
     :title,
     presence: true
