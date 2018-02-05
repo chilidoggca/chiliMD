@@ -16,6 +16,7 @@ class MediaController < ApplicationController
     @comments = @commentable.comments
     @comment = Comment.new
     @references = @medium.references.order(created_at: :asc)
+    @user_like = current_user.likes.find_by_likeable_id(@medium) if user_signed_in?
   end
 
   # GET /media/new

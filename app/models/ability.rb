@@ -54,5 +54,15 @@ class Ability
       vote.user == user
     end
 
+    can :like, Post do |post|
+      post.user != user
+    end
+    can :like, Medium do |medium|
+      medium.user != user
+    end
+    can :crud, Like do |like|
+      like.user == user
+    end
+
   end
 end

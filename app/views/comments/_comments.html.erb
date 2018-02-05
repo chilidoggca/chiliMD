@@ -17,7 +17,10 @@
         <%=time_ago_in_words(comment.created_at) %> ago
       </div>
       <div class="commentshowbody">
-        <%= comment.body %>
+        <%= comment.body %><br />
+        <% if can?(:crud, comment) %>
+          <%= link_to 'Delete', comment, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+        <% end %>
       </div>
     </div>
   </div>

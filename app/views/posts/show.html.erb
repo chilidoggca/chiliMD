@@ -23,6 +23,16 @@
 <strong>Published:</strong> <%= @post.published %><br />
 <% end %>
 
+<% if can?(:like, @post) && user_signed_in? %>
+  <% if @user_like %>
+    <%= link_to fa_icon('heart 2x'), like_path(@user_like), method: :delete %>
+  <% else %>
+    <%= link_to fa_icon('heart-o 2x'), post_likes_path(@post), method: :post %>
+  <% end %>
+<% end %>
+(<%= pluralize(@post.likes.count, 'like') %>)
+
+
 <p>
   <!-- <strong>Body:</strong> -->
   <%= @post.body.html_safe %>

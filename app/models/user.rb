@@ -9,9 +9,9 @@ class User < ApplicationRecord
   has_many :posts, dependent: :nullify
   has_many :comments, dependent: :nullify
 
-  # has_many :likes, dependent: :destroy
-  # has_many :liked_likeables, through: :likes, source: :likeable
-  #
+  has_many :likes, dependent: :destroy
+  has_many :liked_likeables, through: :likes, source: :likeable
+
   has_many :votes, dependent: :destroy
   has_many :voted_comments, through: :votes, source: :comment
 

@@ -22,6 +22,15 @@
 </p>
 <% end %>
 
+<% if can?(:like, @medium) && user_signed_in? %>
+  <% if @user_like %>
+    <%= link_to fa_icon('heart 2x'), like_path(@user_like), method: :delete %>
+  <% else %>
+    <%= link_to fa_icon('heart-o 2x'), medium_likes_path(@medium), method: :post %>
+  <% end %>
+<% end %>
+(<%= pluralize(@medium.likes.count, 'like') %>)
+
 <p>
   <%if @medium.is_image? %>
     <%=link_to image_tag(attachment_url(@medium, :attachment_file, :limit, 200, 200)), attachment_url(@medium, :attachment_file) %>

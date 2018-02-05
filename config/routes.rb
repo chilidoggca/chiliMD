@@ -18,12 +18,14 @@ Rails.application.routes.draw do
   # get "/auth/:provider/callback" => "authentications#create"
 
   resources :posts do
+    resources :likes, only: [:create, :destroy], shallow: true
     resources :comments, only: [:index, :new, :create, :destroy], shallow: true do
       resources :votes, shallow: true, only: [:create, :update, :destroy]
     end
   end
 
   resources :media do
+    resources :likes, only: [:create, :destroy], shallow: true
     resources :comments, only: [:index, :new, :create, :destroy], shallow: true do
       resources :votes, shallow: true, only: [:create, :update, :destroy]
     end

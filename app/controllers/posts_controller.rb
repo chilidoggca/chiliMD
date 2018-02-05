@@ -20,6 +20,7 @@ class PostsController < ApplicationController
     @comment = Comment.new
     @media = @post.media.order(created_at: :desc)
     @references = @post.references.order(created_at: :asc)
+    @user_like = current_user.likes.find_by_likeable_id(@post) if user_signed_in?
   end
 
   # GET /posts/new
