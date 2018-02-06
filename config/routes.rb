@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
 
   mount Ckeditor::Engine => '/ckeditor'
-  root 'posts#landing'
+  # root 'posts#landing'
+  authenticated :user do
+    root :to => "contents#index"
+  end
+  root :to => "posts#landing"
 
   # devise routes
   devise_for :users, skip: [:sessions], controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
@@ -30,6 +34,8 @@ Rails.application.routes.draw do
       resources :votes, shallow: true, only: [:create, :update, :destroy]
     end
   end
+
+  resources :contents
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

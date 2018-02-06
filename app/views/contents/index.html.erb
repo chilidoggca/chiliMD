@@ -1,0 +1,49 @@
+<%# @contents.each do |content| %>
+  <%# if content.has_attribute?(:title) %>
+    <%#=link_to content.title, content %>
+  <%# elsif content.respond_to? :full_name %>
+    <%#=link_to content.full_name, content%>
+  <%# end %>
+<%# end %>
+
+<% if @posts && @posts.count > 0 %>
+  <h3>Posts</h3>
+  <% @posts.each do |post| %>
+  <%=link_to post.title, post %><br />
+  <% end %>
+<% end %>
+
+<% if @media && @media.count > 0 %>
+  <h3>Media</h3>
+  <% @media.each do |medium| %>
+  <%=link_to medium.title, medium %><br />
+  <% end %>
+<% end %>
+
+<% if @images && @images.count > 0 %>
+  <h3>Images</h3>
+  <% @images.each do |image| %>
+  <%=link_to image.title, image %><br />
+  <% end %>
+<% end %>
+
+<% if @audios && @audios.count > 0 %>
+  <h3>Audios</h3>
+  <% @audios.each do |audio| %>
+  <%=link_to audio.title, audio %><br />
+  <% end %>
+<% end %>
+
+<% if @videos && @videos.count > 0 %>
+  <h3>Videos</h3>
+  <% @videos.each do |video| %>
+  <%=link_to video.title, video %><br />
+  <% end %>
+<% end %>
+
+<% if @users && @users.count > 0 %>
+  <h3>Users</h3>
+  <% @users.each do |user| %>
+  <%=link_to user.full_name, user %><br />
+  <% end %>
+<% end %>

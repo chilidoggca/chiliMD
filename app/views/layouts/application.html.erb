@@ -26,10 +26,19 @@
 
           <%= link_to 'Media', media_path, class: "nav-link nav-left" %>
 
-          <form class="form-inline">
-            <input class="form-control" type="search" placeholder="Search" style="margin-right: 10px;" autofocus>
+          <%= simple_form_for :content, method: :get, url: contents_path, wrapper: :inline_form, html: { class: 'form-inline' } do |f| %>
+            <select name="model_name" class="form-control" style="margin-right: 5px; background-color: transparent; color: white; border-color: mistyrose;">
+              <option value="all">All</option>
+              <option value="posts">Posts</option>
+              <option value="media">Media</option>
+              <option value="images">Images</option>
+              <option value="audios">Audios</option>
+              <option value="videos">Videos</option>
+              <option value="users">Users</option>
+            </select>
+            <input class="form-control" name='search_term' type="search" placeholder="Search" style="margin-right: 10px; background-color: transparent; color: white; border-color: mistyrose;" autofocus>
             <button class="btn searchbutton" type="submit"><%= fa_icon('search 2x') %></button>
-          </form>
+          <% end %>
 
           <% if user_signed_in? %>
             <span class="nav-link">Hello, <%= link_to current_user.first_name, current_user %>!</span>
