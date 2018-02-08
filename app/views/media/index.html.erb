@@ -6,6 +6,4 @@
   </ul>
 <% end %>
 
-<br>
-
-<%= link_to 'New Medium', new_medium_path %>
+<%= render partial: 'shared/pagination', locals: {model: @media} %>

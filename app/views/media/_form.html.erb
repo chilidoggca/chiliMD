@@ -1,5 +1,7 @@
 <%= simple_form_for @medium do |f| %>
   <%= f.input :title, placeholder: 'Title', label: false %>
+  <!-- Tags<br /> -->
+  <%= f.association :tags, label: false, collection: Tag.all, input_html: { class: 'chosen-select form-control', multiple: true } %>
   <%= f.input :description, placeholder: 'Description', label: false %>
   <%= f.attachment_field :attachment_file, class: 'form-control' %>
   <div id="references" class="border my-2 p-2">

@@ -2,7 +2,7 @@ class ContentsController < ApplicationController
   before_action :find_search_term
 
   def index
-    # @contents = Post.all.to_a.concat(Medium.all).concat(User.all)
+    # @contents = Post.to_a.concat(Medium.all).concat(User.all)
 
     model_name = params[:model_name]
     if model_name
@@ -26,39 +26,37 @@ class ContentsController < ApplicationController
   end
 
   def all
-    @posts = Post.all.order(created_at: :desc).where("title ilike :search_term OR body ilike :search_term", search_term: "%#{@search_term}%")
-    # @media = Medium.all.order(created_at: :desc).where("title ilike :search_term OR description ilike :search_term", search_term: "%#{@search_term}%")
-    @images = Medium.images.all.order(created_at: :desc).where("title ilike :search_term OR description ilike :search_term", search_term: "%#{@search_term}%")
-    @audios = Medium.audios.all.order(created_at: :desc).where("title ilike :search_term OR description ilike :search_term", search_term: "%#{@search_term}%")
-    @videos = Medium.videos.all.order(created_at: :desc).where("title ilike :search_term OR description ilike :search_term", search_term: "%#{@search_term}%")
-    @users = User.all.order(created_at: :desc).where("first_name ilike :search_term OR last_name ilike :search_term", search_term: "%#{@search_term}%")
+    @posts = Post.search_term_desc(@search_term).paginate(:page => params[:page])
+    @images = Medium.images.search_term_desc(@search_term).paginate(:page => params[:page])
+    @audios = Medium.audios.search_term_desc(@search_term).paginate(:page => params[:page])
+    @videos = Medium.videos.search_term_desc(@search_term).paginate(:page => params[:page])
+    @users = User.search_term_desc(@search_term).paginate(:page => params[:page])
   end
 
   def posts
-    @posts = Post.all.order(created_at: :desc).where("title ilike :search_term OR body ilike :search_term", search_term: "%#{@search_term}%")
+    @posts = Post.search_term_desc(@search_term).paginate(:page => params[:page])
   end
 
   def media
-    # @media = Medium.all.order(created_at: :desc).where("title ilike :search_term OR description ilike :search_term", search_term: "%#{@search_term}%")
-    @images = Medium.images.all.order(created_at: :desc).where("title ilike :search_term OR description ilike :search_term", search_term: "%#{@search_term}%")
-    @audios = Medium.audios.all.order(created_at: :desc).where("title ilike :search_term OR description ilike :search_term", search_term: "%#{@search_term}%")
-    @videos = Medium.videos.all.order(created_at: :desc).where("title ilike :search_term OR description ilike :search_term", search_term: "%#{@search_term}%")
+    @images = Medium.images.search_term_desc(@search_term).paginate(:page => params[:page])
+    @audios = Medium.audios.search_term_desc(@search_term).paginate(:page => params[:page])
+    @videos = Medium.videos.search_term_desc(@search_term).paginate(:page => params[:page])
   end
 
   def images
-    @images = Medium.images.all.order(created_at: :desc).where("title ilike :search_term OR description ilike :search_term", search_term: "%#{@search_term}%")
+    @images = Medium.images.search_term_desc(@search_term).paginate(:page => params[:page])
   end
 
   def audios
-    @audios = Medium.audios.all.order(created_at: :desc).where("title ilike :search_term OR description ilike :search_term", search_term: "%#{@search_term}%")
+    @audios = Medium.audios.search_term_desc(@search_term).paginate(:page => params[:page])
   end
 
   def videos
-    @videos = Medium.videos.all.order(created_at: :desc).where("title ilike :search_term OR description ilike :search_term", search_term: "%#{@search_term}%")
+    @videos = Medium.videos.search_term_desc(@search_term).paginate(:page => params[:page])
   end
 
   def users
-    @users = User.all.order(created_at: :desc).where("first_name ilike :search_term OR last_name ilike :search_term", search_term: "%#{@search_term}%")
+    @users = User.search_term_desc(@search_term).paginate(:page => params[:page])
   end
 
 end

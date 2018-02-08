@@ -3,6 +3,7 @@
 # Medium.destroy_all
 # Tag.destroy_all
 # Tagging.destroy_all
+# Relationship.destroy_all
 
 # PASSWORD = 'supersecret'
 
@@ -107,26 +108,73 @@ users = User.all
 posts = Post.all
 # puts Cowsay.say("Created #{posts.count} posts", :ghostbusters)
 #
-posts.each do |post|
-  rand(1..5).times.each do
-    Comment.create(
-      commentable: post,
-      body: Faker::Hipster.paragraph(2, false, 5),
-      user: users.sample,
-    )
-  end
-end
+# posts.each do |post|
+#   rand(1..5).times.each do
+#     Comment.create(
+#       commentable: post,
+#       body: Faker::Hipster.paragraph(2, false, 5),
+#       user: users.sample,
+#     )
+#   end
+# end
+
+# users.each do |user|
+#   follower_arr = []
+#   rand(1..20).times.each do
+#     us = users.sample
+#     follower_arr << us unless follower_arr.include?(us)
+#   end
+#   follower_arr.each { |follower| follower.follow(user) }
+# end
 
 
-comments = Comment.all
 
-puts Cowsay.say("Created #{comments.count} comments", :moose)
+# comments = Comment.all
+
+# puts Cowsay.say("Created #{comments.count} comments", :moose)
 #
-# ["Javascript", "Java", "Ruby", "Rails", "HTML", "CSS"].each do |t|
+# ["Emergency", "Pediatrics", "Internal Medicine", "Endocrinology", "Public Health",
+#   "Family Medicine", "Surgery", "OBGYN", "Psychiatry"].each do |t|
 #   Tag.create(
 #     name: t
 #   )
 # end
+
+media = Medium.all
+tags = Tag.all
+posts.each do |post|
+  tags_arr = []
+  rand(1..4).times.each do
+    ts = tags.sample
+    tags_arr << ts unless tags_arr.include?(ts)
+  end
+  tags_arr.each do |t|
+    Tagging.create(tag: t, taggable: post)
+  end
+end
+media.each do |medium|
+  tags_arr = []
+  rand(1..4).times.each do
+    ts = tags.sample
+    tags_arr << ts unless tags_arr.include?(ts)
+  end
+  tags_arr.each do |t|
+    Tagging.create(tag: t, taggable: medium)
+  end
+end
+users.each do |user|
+  tags_arr = []
+  rand(1..4).times.each do
+    ts = tags.sample
+    tags_arr << ts unless tags_arr.include?(ts)
+  end
+  tags_arr.each do |t|
+    Tagging.create(tag: t, taggable: user)
+  end
+end
+
+
+
 #
 #
 # puts "Use #{super_user.email} and #{PASSWORD} for testing"

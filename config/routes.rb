@@ -1,15 +1,25 @@
 Rails.application.routes.draw do
 
+  get 'reviewlists/create'
+
+  get 'reviewlists/update'
+
+  get 'reviewlists/destroy'
+
   mount Ckeditor::Engine => '/ckeditor'
   # root 'posts#landing'
   authenticated :user do
-    root :to => "contents#index"
+    root :to => "users#show"
   end
   root :to => "posts#landing"
 
   # devise routes
   devise_for :users, skip: [:sessions], controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
-  resources :users, only: [:index, :show]
+  resources :users, only: [:index, :show] do
+    member do
+      get :following, :followers
+    end
+  end
   devise_scope :user do
     get 'signin', to: 'devise/sessions#new', as: :new_user_session
     post 'signin', to: 'devise/sessions#create', as: :user_session
@@ -23,6 +33,7 @@ Rails.application.routes.draw do
 
   resources :posts do
     resources :likes, only: [:create, :destroy], shallow: true
+    resources :reviewlists, only: [:create, :update, :destroy], shallow: true
     resources :comments, only: [:index, :new, :create, :destroy], shallow: true do
       resources :votes, shallow: true, only: [:create, :update, :destroy]
     end
@@ -30,12 +41,14 @@ Rails.application.routes.draw do
 
   resources :media do
     resources :likes, only: [:create, :destroy], shallow: true
+    resources :reviewlists, only: [:create, :update, :destroy], shallow: true
     resources :comments, only: [:index, :new, :create, :destroy], shallow: true do
       resources :votes, shallow: true, only: [:create, :update, :destroy]
     end
   end
 
   resources :contents
+  resources :relationships, only: [:create, :destroy]
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -14,8 +14,10 @@
 
  *= require_tree .
  *= require_self
+ *= require chosen
  */
 
+@import 'bootstrap';
 
 html {
   font-family: 'Roboto', 'Open Sans', sans-serif;
@@ -206,4 +208,6 @@ div.sidebar {
   // }
 }
 
-@import 'bootstrap';
+.follow-button {
+  font-size: 0.8em;
+}

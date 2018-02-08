@@ -10,8 +10,17 @@
   <div class="linktoauthorshow">
     <%=link_to @medium.user&.full_name, @medium.user %><br />
     Created <%= @medium.created_at.strftime("%b %d %Y") %><br />
-    #medium.author.interests<br />
-    #follow(medium.author)<br />
+    Interests: <%=@medium.user.tag_list %><br />
+    <% if current_user&.following?(@medium.user) %>
+      <%= link_to 'Unfollow', relationship_path(current_user.active_relationships.find_by(followed_id: @medium.user)), method: :delete, class: 'btn btn-outline-success btn-sm follow-button' %>
+      (<%= pluralize(@medium.user.followers.count, 'follower') %>)<br />
+    <% else %>
+      <%# if current_user != @medium.user %>
+      <% if can?(:follow, @medium.user) %>
+        <%= link_to 'Follow', relationships_path(@medium.user.id), method: :post, class: 'btn btn-success btn-sm follow-button' %>
+      <% end %>
+      (<%= pluralize(@medium.user.followers.count, 'follower') %>)<br />
+    <% end %>
   </div>
 </div>
 
@@ -22,6 +31,14 @@
 </p>
 <% end %>
 
+<% if can?(:reviewlist, @post) && user_signed_in? %>
+  <% if @user_reviewlist %>
+    <%= link_to fa_icon('list-alt 2x'), reviewlists_path(@user_reviewlist), method: :delete %>
+  <% else %>
+    <%= link_to fa_icon('list 2x'), post_reviewlists_path(@post), method: :post %>
+  <% end %>
+<% end %>
+
 <% if can?(:like, @medium) && user_signed_in? %>
   <% if @user_like %>
     <%= link_to fa_icon('heart 2x'), like_path(@user_like), method: :delete %>
@@ -30,6 +47,8 @@
   <% end %>
 <% end %>
 (<%= pluralize(@medium.likes.count, 'like') %>)
+
+<p><strong>Tags: </strong> <%= @medium.tag_list %><br /></p>
 
 <p>
   <%if @medium.is_image? %>

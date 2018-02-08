@@ -10,8 +10,17 @@
   <div class="linktoauthorshow">
     <%=link_to @post.user&.full_name, @post.user %><br />
     Created <%= @post.created_at.strftime("%b %d %Y") %><br />
-    #post.author.interests<br />
-    #follow(post.author)<br />
+    Interests: <%=@post.user.tag_list %><br />
+    <% if current_user&.following?(@post.user) %>
+      <%= link_to 'Unfollow', relationship_path(current_user.active_relationships.find_by(followed_id: @post.user)), method: :delete, class: 'btn btn-outline-success btn-sm follow-button' %>
+      (<%= pluralize(@post.user.followers.count, 'follower') %>)<br />
+    <% else %>
+      <%# if current_user != @post.user %>
+      <% if can?(:follow, @post.user) %>
+        <%= link_to 'Follow', relationships_path(@post.user.id), method: :post, class: 'btn btn-success btn-sm follow-button' %>
+      <% end %>
+      (<%= pluralize(@post.user.followers.count, 'follower') %>)<br />
+    <% end %>
   </div>
 </div>
 
@@ -23,6 +32,14 @@
 <strong>Published:</strong> <%= @post.published %><br />
 <% end %>
 
+<% if can?(:reviewlist, @post) && user_signed_in? %>
+  <% if @user_reviewlist %>
+    <%= link_to fa_icon('list-alt 2x'), reviewlists_path(@user_reviewlist), method: :delete %>
+  <% else %>
+    <%= link_to fa_icon('list 2x'), post_reviewlists_path(@post), method: :post %>
+  <% end %>
+<% end %>
+
 <% if can?(:like, @post) && user_signed_in? %>
   <% if @user_like %>
     <%= link_to fa_icon('heart 2x'), like_path(@user_like), method: :delete %>
@@ -32,6 +49,7 @@
 <% end %>
 (<%= pluralize(@post.likes.count, 'like') %>)
 
+<p><strong>Tags: </strong> <%= @post.tag_list %><br /></p>
 
 <p>
   <!-- <strong>Body:</strong> -->

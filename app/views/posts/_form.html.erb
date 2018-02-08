@@ -1,5 +1,7 @@
 <%= simple_form_for @post do |f| %>
   <%= f.input :title, placeholder: 'Title', label: false %>
+  <!-- Tags<br /> -->
+  <%= f.association :tags, label: false, collection: Tag.all, input_html: { class: 'chosen-select form-control' } %>
   <%= f.cktext_area :body, rows: 16 %>
   <div id="media" class="border my-2 p-2">
     <strong>Media</strong>

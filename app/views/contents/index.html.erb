@@ -11,6 +11,7 @@
   <% @posts.each do |post| %>
   <%=link_to post.title, post %><br />
   <% end %>
+  <%= render partial: 'shared/pagination', locals: {model: @posts} %>
 <% end %>
 
 <% if @media && @media.count > 0 %>
@@ -18,6 +19,7 @@
   <% @media.each do |medium| %>
   <%=link_to medium.title, medium %><br />
   <% end %>
+  <%= render partial: 'shared/pagination', locals: {model: @media} %>
 <% end %>
 
 <% if @images && @images.count > 0 %>
@@ -25,6 +27,7 @@
   <% @images.each do |image| %>
   <%=link_to image.title, image %><br />
   <% end %>
+  <%= render partial: 'shared/pagination', locals: {model: @images} %>
 <% end %>
 
 <% if @audios && @audios.count > 0 %>
@@ -32,6 +35,7 @@
   <% @audios.each do |audio| %>
   <%=link_to audio.title, audio %><br />
   <% end %>
+  <%= render partial: 'shared/pagination', locals: {model: @audios} %>
 <% end %>
 
 <% if @videos && @videos.count > 0 %>
@@ -39,6 +43,7 @@
   <% @videos.each do |video| %>
   <%=link_to video.title, video %><br />
   <% end %>
+  <%= render partial: 'shared/pagination', locals: {model: @videos} %>
 <% end %>
 
 <% if @users && @users.count > 0 %>
@@ -46,4 +51,5 @@
   <% @users.each do |user| %>
   <%=link_to user.full_name, user %><br />
   <% end %>
+  <%= render partial: 'shared/pagination', locals: {model: @users} %>
 <% end %>

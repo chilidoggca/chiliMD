@@ -30,6 +30,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'devise'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
+gem 'omniauth-github'
 
 gem 'jquery-rails'
 gem 'bootstrap'
@@ -54,6 +55,8 @@ gem 'cowsay'
 gem 'simple_form'
 gem 'friendly_id', '~> 5.2.3'
 gem 'faraday' #for http requests
+gem 'will_paginate', '~> 3.1.0'
+gem 'chosen-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

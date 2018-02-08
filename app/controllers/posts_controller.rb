@@ -9,7 +9,8 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
+    @posts = Post.paginate(:page => params[:page]).order(created_at: :desc)
+
   end
 
   # GET /posts/1
@@ -21,6 +22,7 @@ class PostsController < ApplicationController
     @media = @post.media.order(created_at: :desc)
     @references = @post.references.order(created_at: :asc)
     @user_like = current_user.likes.find_by_likeable_id(@post) if user_signed_in?
+    @user_reviewlist = current_user.reviewlists.find_by_reviewable_id(@post) if user_signed_in?
   end
 
   # GET /posts/new
@@ -37,7 +39,9 @@ class PostsController < ApplicationController
   def create
     respond_to do |format|
       @post = current_user.posts.new(post_params)
+      # binding.pry
       @post.media.each{|medium| medium.user = current_user}
+      # @post.tag_ids.each{|tag_id| Tagging.create()}
       if @post.save
         format.html { redirect_to @post, notice: 'Post was successfully created.' }
         format.json { render :show, status: :created, location: @post }
@@ -52,7 +56,7 @@ class PostsController < ApplicationController
   # PATCH/PUT /posts/1.json
   def update
     respond_to do |format|
-      @post.assign_attributes(post_params)
+      @post.update(post_params)
       @post.media.each{|medium| medium.user = current_user}
       if @post.save
         format.html { redirect_to @post, notice: 'Post was successfully updated.' }
@@ -83,6 +87,7 @@ class PostsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
       params.require(:post).permit(:title, :body, :published,
+        tag_attributes: [:id],
         media_attributes: [:id, :title, :attachment_file, :_destroy],
         references_attributes: [:id, :body, :url, :doi, :_destroy])
     end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180204180204) do
+ActiveRecord::Schema.define(version: 20180208023935) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,27 @@ ActiveRecord::Schema.define(version: 20180204180204) do
     t.index ["referenceable_type", "referenceable_id"], name: "index_references_on_referenceable_type_and_referenceable_id"
   end
 
+  create_table "relationships", force: :cascade do |t|
+    t.integer "follower_id"
+    t.integer "followed_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["followed_id"], name: "index_relationships_on_followed_id"
+    t.index ["follower_id", "followed_id"], name: "index_relationships_on_follower_id_and_followed_id", unique: true
+    t.index ["follower_id"], name: "index_relationships_on_follower_id"
+  end
+
+  create_table "reviewlists", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "reviewable_type"
+    t.bigint "reviewable_id"
+    t.datetime "start_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["reviewable_type", "reviewable_id"], name: "index_reviewlists_on_reviewable_type_and_reviewable_id"
+    t.index ["user_id"], name: "index_reviewlists_on_user_id"
+  end
+
   create_table "taggings", force: :cascade do |t|
     t.bigint "tag_id"
     t.string "taggable_type"
@@ -167,6 +188,7 @@ ActiveRecord::Schema.define(version: 20180204180204) do
   add_foreign_key "media", "posts"
   add_foreign_key "media", "users"
   add_foreign_key "posts", "users"
+  add_foreign_key "reviewlists", "users"
   add_foreign_key "taggings", "tags"
   add_foreign_key "users", "users"
   add_foreign_key "votes", "comments"

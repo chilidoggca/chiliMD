@@ -1,4 +1,6 @@
 class Medium < ApplicationRecord
+  include Taggable
+
   attachment :attachment_file
   belongs_to :user
   belongs_to :post, optional: true
@@ -12,6 +14,9 @@ class Medium < ApplicationRecord
 
   has_many :likes, as: :likeable, dependent: :destroy
   has_many :likers, through: :likes, source: :user
+
+  has_many :reviewlists, as: :reviewable, dependent: :destroy
+  has_many :reviewers, through: :reviewlists, source: :user
 
   validates(
     :title,
@@ -38,6 +43,10 @@ class Medium < ApplicationRecord
     elsif self.attachment_file_content_type.include? 'video'
       self.is_video = true
     end
+  end
+
+  def self.search_term_desc(term)
+    where("title ilike :search_term OR description ilike :search_term", search_term: "%#{term}%").order(created_at: :desc)
   end
 
   def capitalize

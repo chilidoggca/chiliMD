@@ -6,7 +6,8 @@ class MediaController < ApplicationController
   # GET /media
   # GET /media.json
   def index
-    @media = Medium.all
+    @media = Medium.paginate(:page => params[:page]).order(created_at: :desc)
+
   end
 
   # GET /media/1
@@ -17,6 +18,7 @@ class MediaController < ApplicationController
     @comment = Comment.new
     @references = @medium.references.order(created_at: :asc)
     @user_like = current_user.likes.find_by_likeable_id(@medium) if user_signed_in?
+    @user_reviewlist = current_user.reviewlists.find_by_reviewable_id(@medium) if user_signed_in?
   end
 
   # GET /media/new
@@ -74,7 +76,7 @@ class MediaController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def medium_params
-    params.require(:medium).permit(:title, :description, :attachment_file,
+    params.require(:medium).permit(:title, :description, :attachment_file, { tag_ids: [] },
       references_attributes: [:id, :body, :url, :doi, :_destroy])
   end
 

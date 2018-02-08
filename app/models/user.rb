@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include Taggable
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -9,11 +11,27 @@ class User < ApplicationRecord
   has_many :posts, dependent: :nullify
   has_many :comments, dependent: :nullify
 
+  has_many :taggings, as: :taggable, dependent: :destroy
+  has_many :tags, as: :taggable, through: :taggings
+
   has_many :likes, dependent: :destroy
   has_many :liked_likeables, through: :likes, source: :likeable
 
   has_many :votes, dependent: :destroy
   has_many :voted_comments, through: :votes, source: :comment
+
+  has_many :reviewlists, dependent: :destroy
+  has_many :reviewlisted_reviewables, through: :reviewlists, source: :reviewable
+
+  has_many :active_relationships, class_name:  "Relationship",
+                                  foreign_key: "follower_id",
+                                  dependent:   :destroy
+  has_many :passive_relationships, class_name:  "Relationship",
+                                   foreign_key: "followed_id",
+                                   dependent:   :destroy
+
+  has_many :following, through: :active_relationships, source: :followed
+  has_many :followers, through: :passive_relationships, source: :follower
 
   attachment :profile_image, destroy: true
 
@@ -49,6 +67,24 @@ class User < ApplicationRecord
 
   def contributions
     self.media.to_a.concat(self.posts).sort{|x,y|y.created_at - x.created_at} #not quite working as intended
+  end
+
+  def follow(other_user)
+    following << other_user
+  end
+
+  # Unfollows a user.
+  def unfollow(other_user)
+    following.delete(other_user)
+  end
+
+  # Returns true if the current user is following the other user.
+  def following?(other_user)
+    following.include?(other_user)
+  end
+
+  def self.search_term_desc(term)
+    where("first_name ilike :search_term OR last_name ilike :search_term", search_term: "%#{term}%").order(created_at: :desc)
   end
 
   def self.from_omniauth(access_token)

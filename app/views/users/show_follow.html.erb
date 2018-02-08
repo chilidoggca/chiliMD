@@ -1,0 +1,5 @@
+<% provide(:title, @title) %>
+<h1><%= @title %></h1>
+<% @users.each do |user| %>
+<%=user.full_name%><br />
+<% end %>

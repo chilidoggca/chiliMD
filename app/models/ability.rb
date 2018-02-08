@@ -64,5 +64,25 @@ class Ability
       like.user == user
     end
 
+    can :follow, User do |u|
+      user != u
+    end
+    # cannot :follow, User do |u|
+    #   user == u
+    # end
+    can :crud, Relationship do |relationship|
+      user.active_relationships == user
+    end
+
+    can :reviewlist, Post do |post|
+      post.user != user
+    end
+    can :reviewlist, Medium do |medium|
+      medium.user != user
+    end
+    can :crud, Reviewlist do |reviewlist|
+      reviewlist.user == user
+    end
+
   end
 end

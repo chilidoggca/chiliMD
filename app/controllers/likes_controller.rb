@@ -17,9 +17,9 @@ class LikesController < ApplicationController
     @likeable = like.likeable
     if can? :destroy, like
       like.destroy
-      redirect_to @likeable, notice: 'You un-liked this post.'
+      redirect_to @likeable, notice: 'You un-liked this content.'
     else
-      head :unauthorized
+      head :unauthorized, notice: 'You can\'t un-like this content.'
     end
   end
 
