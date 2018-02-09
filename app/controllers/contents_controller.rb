@@ -1,5 +1,4 @@
 class ContentsController < ApplicationController
-  protect_from_forgery :except => [:index]
   before_action :find_search_term
 
   def index
@@ -21,11 +20,11 @@ class ContentsController < ApplicationController
   end
 
   def api
-    @posts = Post.all
-    @media = Medium.all
-    @users = User.all
-    p '=====================================hello'
-    render json: [@posts, @media, @users]
+    @posts = Post.order(created_at: :desc)
+    @media = Medium.order(created_at: :desc)
+    @users = User.order(created_at: :desc)
+    @tags = Tag.order(created_at: :asc)
+    render json: {:posts => @posts, :images => @media.images, :videos => @media.videos, :audios => @media.audios, :users => @users, :tags => @tags}
   end
 
   private

@@ -28,7 +28,7 @@ class Medium < ApplicationRecord
     presence: true
   )
 
-  before_validation :capitalize, :set_media_type
+  before_validation :capitalize, :set_media_type, :set_description
 
   scope :created_at_desc, -> {order(created_at: :desc)}
   scope :images, -> {where(is_image: true)}
@@ -51,6 +51,10 @@ class Medium < ApplicationRecord
 
   def capitalize
     self.title&.capitalize!
+  end
+
+  def set_description
+    self.description ||= ""
   end
 
 end
