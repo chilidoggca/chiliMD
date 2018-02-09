@@ -1,0 +1,8 @@
+<% if can?(:like, likeable) && user_signed_in? %>
+  <% if user_like %>
+    <%= link_to "<i class='fa fa-thumbs-up' style='color:red; font-size: 2em;'></i>".html_safe, like_path(user_like), method: :delete %>
+  <% else %>
+    <%= link_to "<i class='fa fa-thumbs-o-up' style='color:green; font-size: 2em;'></i>".html_safe, post_likes_path(likeable), method: :post %>
+  <% end %>
+<% end %>
+(<%= pluralize(likeable.likes.count, 'like') %>)

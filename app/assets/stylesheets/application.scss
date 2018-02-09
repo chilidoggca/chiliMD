@@ -11,10 +11,10 @@
  * It is generally better to create a new file per style scope.
  *
  *= require font-awesome
-
  *= require_tree .
  *= require_self
  *= require chosen
+ *= require jquery-ui
  */
 
 @import 'bootstrap';
@@ -161,6 +161,16 @@ div.sidebar {
     &:hover {
       color: black;
     }
+  }
+}
+
+div.maindiv {
+  &.blur {
+  -webkit-filter: blur(5px) contrast(0.7);
+  -moz-filter: blur(5px) contrast(0.7);
+  -o-filter: blur(5px) contrast(0.7);
+  -ms-filter: blur(5px) contrast(0.7);
+  filter: blur(5px) contrast(0.7);
   }
 }
 

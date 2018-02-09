@@ -23,6 +23,7 @@ class ReviewlistsController < ApplicationController
       redirect_to @reviewable, notice: 'Removed from review list.'
     else
       head :unauthorized, notice: 'Can\'t be removed from review list.'
+    end
   end
 
   private

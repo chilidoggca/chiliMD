@@ -12,7 +12,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
   </head>
   <body>
-    <div class="container">
+    <!-- <div class="container"> -->
       <div class="headerdiv">
         <nav class="navbar fixed-top navbar-expand-lg navbar-dark chilimd">
           <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerTarget">
@@ -27,7 +27,7 @@
           <%= link_to 'Media', media_path, class: "nav-link nav-left" %>
 
           <%= simple_form_for :content, method: :get, url: contents_path, wrapper: :inline_form, html: { class: 'form-inline' } do |f| %>
-            <select name="model_name" class="form-control" style="margin-right: 5px; background-color: transparent; color: white; border-color: mistyrose;">
+            <select name="model_name" class="form-control navdropdownfield" style="margin-right: 5px; background-color: transparent; color: white; border-color: mistyrose;">
               <option value="all">All</option>
               <option value="posts">Posts</option>
               <option value="media">Media</option>
@@ -36,7 +36,7 @@
               <option value="videos">Videos</option>
               <option value="users">Users</option>
             </select>
-            <input class="form-control" name='search_term' type="search" placeholder="Search" style="margin-right: 10px; background-color: transparent; color: white; border-color: mistyrose;" autofocus>
+            <input class="form-control navsearchbar" name='search_term' type="search" placeholder="Search" style="margin-right: 10px; background-color: transparent; color: white; border-color: mistyrose;" autofocus>
             <button class="btn searchbutton" type="submit"><%= fa_icon('search 2x') %></button>
           <% end %>
 
@@ -65,30 +65,29 @@
         <p><%= fa_icon('file') %> <%=link_to 'New Post', new_post_path %></p>
         <p><%= fa_icon('upload') %> <%=link_to 'New Medium', new_medium_path %></p>
       </div>
-      <script type="text/javascript">
-      $( ".nav-link.bar" ).click(function(event) {
-        event.preventDefault();
-        $( "div.sidebar" ).toggleClass("hidesidebar");
-      });
-      </script>
+
       <div class="maindiv">
-        <% if flash[:notice].present?%>
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <%=flash[:notice] %>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        <% elsif flash[:alert].present?%>
-          <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <%=flash[:alert] %>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        <% end %>
-        <%= yield %>
+        <div class="container">
+          <% if flash[:notice].present?%>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <%=flash[:notice] %>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          <% elsif flash[:alert].present?%>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <%=flash[:alert] %>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          <% end %>
+        </div>
+        <div class="yield container">
+          <%= yield %>
+        </div>
       </div>
-    </div>
+    <!-- </div> -->
   </body>
 </html>

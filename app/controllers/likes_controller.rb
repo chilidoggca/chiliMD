@@ -1,6 +1,7 @@
 class LikesController < ApplicationController
   before_action :authenticate_user!
   before_action :load_likeable
+  before_action :authorize_user!
 
   def create
     like = @likeable.likes.new(params[:likeable_id])
@@ -8,7 +9,7 @@ class LikesController < ApplicationController
       if like.save
         redirect_to @likeable, notice: 'You liked this content.'
       else
-        redirect_to @likeable, notice: 'You could not like this content.'
+        redirect_to @likeable, notice: 'You can\'t like this content.'
       end
   end
 
@@ -26,6 +27,12 @@ class LikesController < ApplicationController
   def load_likeable
     resource, id = request.path.split('/')[1,2]
     @likeable = resource.singularize.classify.constantize.find(id)
+  end
+
+  def authorize_user!
+    unless can?(:like, @likeable)
+      head :unauthorized, notice: 'You can\'t like this content.'
+    end
   end
 
 end

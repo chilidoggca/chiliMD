@@ -7,8 +7,6 @@ class Post < ApplicationRecord
   # has_many :taggings, as: :taggable, dependent: :destroy
   # has_many :tags, as: :taggable, through: :taggings
 
-  accepts_nested_attributes_for :tags, reject_if: :all_blank, allow_destroy: true
-
   has_many :media, dependent: :nullify, inverse_of: :post
   accepts_nested_attributes_for :media, reject_if: :all_blank, allow_destroy: true
 
@@ -36,6 +34,5 @@ class Post < ApplicationRecord
   def self.search_term_desc(term)
     where("title ilike :search_term OR body ilike :search_term", search_term: "%#{term}%").order(created_at: :desc)
   end
-
 
 end

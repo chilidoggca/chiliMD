@@ -39,7 +39,6 @@ class PostsController < ApplicationController
   def create
     respond_to do |format|
       @post = current_user.posts.new(post_params)
-      # binding.pry
       @post.media.each{|medium| medium.user = current_user}
       # @post.tag_ids.each{|tag_id| Tagging.create()}
       if @post.save
@@ -86,8 +85,7 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:title, :body, :published,
-        tag_attributes: [:id],
+      params.require(:post).permit(:title, :body, :published, { tag_ids: [] },
         media_attributes: [:id, :title, :attachment_file, :_destroy],
         references_attributes: [:id, :body, :url, :doi, :_destroy])
     end

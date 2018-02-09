@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def show
-
+    # @user.posts = @user.posts.created_at_desc.paginate(page: params[:page])
   end
 
   def index

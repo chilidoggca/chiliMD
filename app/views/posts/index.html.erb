@@ -1,6 +1,8 @@
 <h1>Posts</h1>
 
-<table>
+<%= render partial: 'posts_list', locals: { posts: @posts }%>
+
+<!-- <table>
   <thead>
     <tr>
       <th>Title</th>
@@ -22,6 +24,6 @@
       </tr>
     <% end %>
   </tbody>
-</table>
+</table> -->
 
 <%= render partial: 'shared/pagination', locals: {model: @posts} %>

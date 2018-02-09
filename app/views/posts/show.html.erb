@@ -34,20 +34,13 @@
 
 <% if can?(:reviewlist, @post) && user_signed_in? %>
   <% if @user_reviewlist %>
-    <%= link_to fa_icon('list-alt 2x'), reviewlists_path(@user_reviewlist), method: :delete %>
+    <%= link_to "<i class='fa fa-list-ul' style='color:red; font-size: 2em;'></i>".html_safe, reviewlist_path(@user_reviewlist), method: :delete %>
   <% else %>
-    <%= link_to fa_icon('list 2x'), post_reviewlists_path(@post), method: :post %>
+    <%= link_to "<i class='fa fa-list-ul' style='color:green; font-size: 2em;'></i>".html_safe, post_reviewlists_path(@post), method: :post %>
   <% end %>
 <% end %>
 
-<% if can?(:like, @post) && user_signed_in? %>
-  <% if @user_like %>
-    <%= link_to fa_icon('heart 2x'), like_path(@user_like), method: :delete %>
-  <% else %>
-    <%= link_to fa_icon('heart-o 2x'), post_likes_path(@post), method: :post %>
-  <% end %>
-<% end %>
-(<%= pluralize(@post.likes.count, 'like') %>)
+<%= render partial: '/shared/like', locals: { likeable: @post, user_like: @user_like } %>
 
 <p><strong>Tags: </strong> <%= @post.tag_list %><br /></p>
 

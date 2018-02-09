@@ -1,4 +1,5 @@
 class ContentsController < ApplicationController
+  protect_from_forgery :except => [:index]
   before_action :find_search_term
 
   def index
@@ -17,6 +18,14 @@ class ContentsController < ApplicationController
     #   model_name: "#{model_name}"
     # )
 
+  end
+
+  def api
+    @posts = Post.all
+    @media = Medium.all
+    @users = User.all
+    p '=====================================hello'
+    render json: [@posts, @media, @users]
   end
 
   private
