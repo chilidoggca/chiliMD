@@ -27,14 +27,17 @@
   <li class="nav-item">
     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home">Overview</a>
   </li>
-  <li class="nav-item">
+  <!-- <li class="nav-item">
     <a class="nav-link" id="all-tab" data-toggle="tab" href="#all" role="tab">All Contributions</a>
-  </li>
+  </li> -->
   <li class="nav-item">
     <a class="nav-link" id="posts-tab" data-toggle="tab" href="#posts">Posts</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" id="media-tab" data-toggle="tab" href="#media">Media</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="reviewlists-tab" data-toggle="tab" href="#reviewlists">Review List</a>
   </li>
 </ul>
 <div class="tab-content" id="user-show-tab-content">
@@ -64,7 +67,7 @@
     </div>
 
   </div>
-  <div class="tab-pane p-2 fade" id="all" role="tabpanel">
+  <!-- <div class="tab-pane p-2 fade" id="all" role="tabpanel">
 
     <h3>All Contributions</h3>
     <% @user.contributions.each do |c| %>
@@ -73,7 +76,7 @@
     </p>
     <%end%>
 
-  </div>
+  </div> -->
   <div class="tab-pane p-2 fade" id="posts" role="tabpanel">
     <%= render partial: 'posts/posts_list', locals: { posts: @user.posts.created_at_desc }%>
     <%#= render partial: 'shared/pagination', locals: {model: @user.posts.created_at_desc } %>
@@ -106,4 +109,10 @@
     <%end%>
 
   </div>
+  <div class="tab-pane p-2 fade" id="reviewlists" role="tabpanel">
+    <% @user.reviewlists.each do |item| %>
+    <%=link_to item.reviewable.title, item.reviewable %><br />
+    <% end %>
+  </div>
+
 </div>

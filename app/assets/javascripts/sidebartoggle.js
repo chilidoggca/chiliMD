@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   $( "div.maindiv" ).click(function(event) {
-    console.log('i\'ve been clicked!');
     $( "div.sidebar" ).addClass("hidesidebar");
     $( "div.maindiv.blur" ).removeClass("blur");
   });

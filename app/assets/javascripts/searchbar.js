@@ -39,22 +39,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   $('.navsearchbar').on('keyup', _.debounce(
-    filterContent, 300
+    filterContent, 200
   ));
 
   $('.navdropdownfield').on('change', _.debounce(
-    filterContent, 300
+    filterContent, 200
   ));
 
   let allContent = getContent();
   allContent.then(content => console.log(content));
 
   function filterContent() {
+    // console.log('filterContent')
     let search_term = navsearchbar.value.toLowerCase();
     let model = navdropdownfield.value.toLowerCase();
 
     allContent.then((content) => {
-
+      // console.log('content', content)
         let {
           posts,
           // media,
@@ -99,42 +100,49 @@ document.addEventListener("DOMContentLoaded", () => {
         const filteredTags = tags.filter((tag) => filterTag(search_term, tag));
         // console.log('tags', filteredTags);
 
+        $(".yield.container").html(`<h3>Search Results</h3>`);
+
         function displayContent(key, content) {
-          // $(".yield.container").replaceWith(`<h1>Hellow World</h1>`)
-          $(".yield.container").replaceWith(`<h1>Search Results</h1><h4>${key}</h4>${content.title}`)
+          $(".yield.container").append(`<b>${key[0].toUpperCase()+key.slice(1)}</b> (${content.length} found)<br />`);
+          for (let i=0; i<content.length; i++) {
+            $(".yield.container").append(`
+              <a href="/${key}/${content[i].id}">
+                ${content[i].title || content[i].name || content[i].first_name+' '+content[i].last_name}
+              </a><br />`);
+          }
         }
 
         switch (model) {
           case 'posts':
-            filteredPosts;
+            displayContent(model, filteredPosts);
             break;
           case 'media':
-            filteredImages;
-            filteredAudios;
-            filteredVideos;
+            displayContent('images', filteredImages);
+            displayContent('audios', filteredAudios);
+            displayContent('videos', filteredVideos);
             break;
           case 'images':
-            displayContent('Images', filteredImages);
+            displayContent(model, filteredImages);
             break;
           case 'audios':
-            filteredAudios;
+            displayContent(model, filteredAudios);
             break;
           case 'videos':
-            filteredVideos;
+            displayContent(model, filteredVideos);
             break;
           case 'users':
-            filteredUsers;
+            displayContent(model, filteredUsers);
             break;
           case 'tags':
-            filteredTags;
+            displayContent(model, filteredTags);
             break;
           default:
-            filteredPosts;
-            filteredImages;
-            filteredAudios;
-            filteredVideos;
-            filteredUsers;
-            filteredTags;
+            displayContent('posts', filteredPosts);
+            displayContent('images', filteredImages);
+            displayContent('audios', filteredAudios);
+            displayContent('videos', filteredVideos);
+            displayContent('users', filteredUsers);
+            displayContent('tags', filteredTags);
             break;
         }
 
