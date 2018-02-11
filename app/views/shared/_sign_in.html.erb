@@ -1,0 +1,21 @@
+<%# I created this shared partial for the sidebar %>
+<%= simple_form_for :user, method: :post, url: '/signin' do |f| %>
+  <%= f.input :email, label: false, placeholder: 'Email', input_html: { id: 'signin-em' }, autocomplete: "email" %>
+  <%= f.input :password, label: false, placeholder: 'Password', input_html: { id: 'signin-pw' }, autocomplete: "off" %>
+  <%= f.submit "Sign in", class: 'btn btn-dark' %>
+<% end %>
+<div class="fbicon mt-2">
+  <a href="/users/auth/facebook">
+    <span class="btn oauthicons">
+      <img src="/layout/fb.svg.png" height="20px">&nbsp; Sign in with facebook
+    </span>
+  </a>
+</div>
+<div class="ggicon">
+  <a href="/users/auth/google_oauth2">
+    <span class="btn oauthicons">
+      <img src="/layout/gg.svg.png" height="20px">&nbsp; Sign in with google
+    </span>
+  </a>
+</div>
+<%#= render "devise/shared/links" %>

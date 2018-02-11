@@ -1,49 +1,61 @@
-<h2>Sign up</h2>
-
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div class="field">
-    <%= f.label :first_name %><br />
-    <%= f.text_field :first_name, autofocus: true, autocomplete: "first_name" %>
+<div class="signincardcontainer">
+  <div class="signincard">
+    <div class="signincardfields">
+      <h3>Sign up for <span>chiliMD</span>!</h3>
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <%= f.input :first_name, label: false, placeholder: 'First name', autofocus: true, autocomplete: "first_name" %>
+          </div>
+          <div class="col-12 col-sm-6">
+            <%= f.input :last_name, label: false, placeholder: 'Last name', autofocus: true, autocomplete: "last_name" %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <%= f.input :email, label: false, placeholder: 'Email', autofocus: true, autocomplete: "email" %>
+          </div>
+          <div class="col-12 col-sm-6">
+            <div class="custom-file" style="margin-bottom: 1em">
+              <%= f.attachment_field :profile_image, autofocus: true, autocomplete: "off", class: 'custom-file-input' %>
+              <label class="custom-file-label" style="color: #777">Profile picture</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-6">
+            <%= f.input :password, label: false, placeholder: 'Password', autocomplete: "off" %>
+          </div>
+          <div class="col-12 col-sm-6">
+            <%= f.input :password_confirmation, label: false, placeholder: 'Re-enter password', autocomplete: "off" %>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-sm-9">
+            <%= f.association :tags, label: false, collection: Tag.all,
+              input_html: { class: 'chosen-select form-control', multiple: true, data: { placeholder: ' Tell us about your interests...' } } %>
+          </div>
+          <div class="col-12 col-sm-3">
+            <%= f.submit "Sign up", class: 'btn btn-danger form-control', style: 'opacity: 0.8' %>
+          </div>
+        </div>
+      <% end %>
+      </div>
+    <div class="fbicon">
+      <a href="/users/auth/facebook">
+        <span class="btn oauthicons">
+          <img src="/layout/fb.svg.png" height="20px">&nbsp; Sign in with facebook
+        </span>
+      </a>
+    </div>
+    <div class="ggicon">
+      <a href="/users/auth/google_oauth2">
+        <span class="btn oauthicons">
+          <img src="/layout/gg.svg.png" height="20px">&nbsp; Sign in with google
+        </span>
+      </a>
+    </div>
+    <%#= render "devise/shared/links" %>
   </div>
-
-  <div class="field">
-    <%= f.label :last_name %><br />
-    <%= f.text_field :last_name, autofocus: true, autocomplete: "last_name" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :tags %><br />
-    <%= f.association :tags, label: false, collection: Tag.all, input_html: { class: 'chosen-select form-control', multiple: true } %>
-  </div>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :profile_image %><br />
-    <%= f.attachment_field :profile_image, autofocus: true, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
+<div style="height:100%; width: 100%; position: absolute; top: 0; left: 0;background-image:url('/layout/wooden-background.jpg');z-index:-2;content:"";background-size:cover;"></div>

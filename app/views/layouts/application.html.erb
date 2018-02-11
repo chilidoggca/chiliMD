@@ -9,7 +9,7 @@
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
     <%= javascript_include_tag Ckeditor.cdn_url %>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto|Dancing+Script" rel="stylesheet">
   </head>
   <body>
     <!-- <div class="container"> -->
@@ -27,7 +27,7 @@
           <%= link_to 'Media', media_path, class: "nav-link nav-left" %>
 
           <%= simple_form_for :content, method: :get, url: contents_path, wrapper: :inline_form, html: { class: 'form-inline' } do |f| %>
-            <select name="model_name" class="form-control navdropdownfield" style="margin-right: 5px; background-color: transparent; color: white; border-color: mistyrose;">
+            <select name="model_name" class="form-control navdropdownfield">
               <option value="all">All</option>
               <option value="posts">Posts</option>
               <option value="media">Media</option>
@@ -36,7 +36,7 @@
               <option value="videos">Videos</option>
               <option value="users">Users</option>
             </select>
-            <input class="form-control navsearchbar" name='search_term' type="search" placeholder="Search" style="margin-right: 10px; background-color: transparent; color: white; border-color: mistyrose;" autofocus>
+            <input class="form-control navsearchbar" name='search_term' type="search" placeholder="Search...">
             <button class="btn searchbutton" type="submit"><%= fa_icon('search 2x') %></button>
           <% end %>
 
@@ -57,7 +57,10 @@
           <% else %>
             <%= link_to 'Sign In', new_user_session_path, class: "nav-link" %>
 
-            <%= link_to 'Sign Up', new_user_registration_path, class: "nav-link" %>
+            <%= link_to 'Sign Up', new_user_registration_path, class: "nav-link", data: {toggle: "modal", target:"#signUpModal" }%>
+            <!-- <button type="button" class="btn btn-primary" >
+              Sign Up
+            </button> -->
           <% end %>
         </nav>
       </div>
@@ -66,7 +69,22 @@
           <p><%= fa_icon('file') %> <%=link_to 'New Post', new_post_path %></p>
           <p><%= fa_icon('upload') %> <%=link_to 'New Medium', new_medium_path %></p>
         <% else %>
-          <%= render 'devise/sessions/new', resource: @resource %>
+          <ul class="nav nav-tabs" id="signintabs" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="sign_in-tab" data-toggle="tab" href="#sign_in" role="tab">Sign in</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="sign_up-tab" data-toggle="tab" href="#sign_up" role="tab">Sign up</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane show active signintabs" id="sign_in" role="tabpanel" style="padding-top: 1em;">
+              <%= render partial: '/shared/sign_in' %>
+            </div>
+            <div class="tab-pane signintabs" id="sign_up" role="tabpanel" style="padding-top: 1em;">
+              <%= render partial: '/shared/sign_up' %>
+            </div>
+          </div>
         <% end %>
       </div>
 
@@ -93,5 +111,71 @@
         </div>
       </div>
     <!-- </div> -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="signUpModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="signincard">
+            <div class="signincardfields">
+              <h3>Sign up for <span>chiliMD</span>!</h3>
+              <%= simple_form_for :user, method: :post, url: '/users' do |f| %>
+                <div class="row">
+                  <div class="col-12 col-lg-6">
+                    <%= f.input :first_name, label: false, placeholder: 'First name', autofocus: true, autocomplete: "first_name"%>
+                  </div>
+                  <div class="col-12 col-lg-6">
+                    <%= f.input :last_name, label: false, placeholder: 'Last name', autofocus: true, autocomplete: "last_name"%>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <%= f.input :email, label: false, placeholder: 'Email', autofocus: true, autocomplete: "email"%>
+                  </div>
+                  <!-- <div class="col-12 col-lg-6">
+                    <div class="custom-file" style="margin-bottom: 1em">
+                      <%#= f.attachment_field :profile_image, autofocus: true, autocomplete: "off", class: 'custom-file-input' %>
+                      <label class="custom-file-label" style="color: #777">Profile picture</label>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="row">
+                  <div class="col-12 col-lg-6">
+                    <%= f.input :password, label: false, placeholder: 'Password', autocomplete: "off"%>
+                  </div>
+                  <div class="col-12 col-lg-6">
+                    <%= f.input :password_confirmation, label: false, placeholder: 'Re-enter password', autocomplete: "off"%>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 col-lg-9">
+                    <%#= f.association :tags, label: false, collection: Tag.all,
+                      input_html: { class: 'chosen-select form-control', multiple: true, data: { placeholder: ' Tell us about your interests...' } } %>
+                  </div>
+                  <div class="col-12 col-lg-3">
+                    <%= f.submit "Sign up", class: 'btn btn-danger form-control', style: 'opacity: 0.8' %>
+                  </div>
+                </div>
+              <% end %>
+              </div>
+            <div class="fbicon mt-2">
+              <a href="/users/auth/facebook">
+                <span class="btn oauthicons">
+                  <img src="/layout/fb.svg.png" height="20px">&nbsp; Sign in with facebook
+                </span>
+              </a>
+            </div>
+            <div class="ggicon">
+              <a href="/users/auth/google_oauth2">
+                <span class="btn oauthicons">
+                  <img src="/layout/gg.svg.png" height="20px">&nbsp; Sign in with google
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </body>
 </html>

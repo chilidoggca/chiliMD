@@ -112,6 +112,28 @@ body {
       background: linear-gradient(180deg, #b31217, #e52d27);
     }
   }
+  form > select.navdropdownfield {
+    margin-right: 5px;
+    background-color: darken(#b31217, 20%);
+    color: white;
+    border: 0;
+    font-size: 0.9em;
+    // border-color: mistyrose;
+    opacity: 0.8;
+  }
+  form > input.navsearchbar[type='search'] {
+    margin-right: 5px;
+    background-color: darken(#b31217, 20%);
+    color: white;
+    border: 0;
+    // font-size: 0.9em;
+    // border-color: mistyrose;
+    opacity: 0.8;
+    &::placeholder {
+      color: mistyrose;
+      opacity: 0.8;
+    }
+  }
   form > button.searchbutton {
     border: 1px solid mistyrose;
     border-radius: 5px;
@@ -149,6 +171,7 @@ div.sidebar {
   color: dimgray;
   width: 300px;
   height: 100%;
+  opacity: 0.95;
   &.hidesidebar {
     left: -400px;
     // visibility: hidden;
@@ -164,13 +187,135 @@ div.sidebar {
   }
 }
 
+a#sign_in-tab, a:hover#sign_in-tab {
+  background-color: transparent;
+  &.active {
+    border-color: gray gray #ececec;
+  }
+}
+a#sign_up-tab, a:hover#sign_up-tab {
+  background-color: transparent;
+  &.active {
+    border-color: gray gray #ececec;
+  }
+}
+ul#signintabs {
+  border-bottom: 1px solid gray;
+}
+
 div.maindiv {
   &.blur {
-  -webkit-filter: blur(5px) contrast(0.7);
-  -moz-filter: blur(5px) contrast(0.7);
-  -o-filter: blur(5px) contrast(0.7);
-  -ms-filter: blur(5px) contrast(0.7);
-  filter: blur(5px) contrast(0.7);
+  -webkit-filter: blur(10px) contrast(0.7);
+  -moz-filter: blur(10px) contrast(0.7);
+  -o-filter: blur(10px) contrast(0.7);
+  -ms-filter: blur(10px) contrast(0.7);
+  filter: blur(10px) contrast(0.7);
+  }
+}
+
+div.signincardcontainer {
+  content: " ";
+  width: 100%;
+  height: 600px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  div.signincard {
+    box-shadow: 2px 2px 5px 1px #999;
+  }
+}
+
+#signUpModal, .signincardcontainer {
+  div.signincard {
+    max-width: 800px;
+    position: relative;
+    padding: 3em 5em;
+    min-height: 400px;
+    background-image: url('/layout/vector3.png'), linear-gradient(-45deg, rgba(240, 128, 128, 0.3), rgba(255, 160, 122, 0.3));
+    background-size: cover, auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    // border-radius: 5px;
+    // box-shadow: 0px 0px 10px 2px lightgray;
+    &::after {
+      content: "";
+      background-image: url('/layout/cardbackground.jpg');
+      background-size: auto;
+      image-rendering: pixelated;
+      // opacity: 0.3;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      position: absolute;
+      z-index: -1;
+      -webkit-filter: contrast(0.1) brightness(2);
+      -moz-filter: contrast(0.1) brightness(2);
+      -o-filter: contrast(0.1) brightness(2);
+      -ms-filter: contrast(0.1) brightness(2);
+      filter: contrast(0.1) brightness(2);
+    }
+    div.signincardfields {
+      width: 100%;
+    }
+    div.fbicon, div.ggicon {
+      a:link, a:hover, a:visited, a:active {
+        color: dimgray;
+      }
+      span.oauthicons {
+        background-color: white;
+        font-size: 0.8em;
+        font-weight: 500;
+        width: 200px;
+        margin: 0.5em;
+        // border: 1px solid #aaa;
+        &:hover {
+          box-shadow: 0px 0px 3px 1px #ccc;
+        }
+      }
+    }
+    .form-control:not(.btn), .custom-file-label {
+      border: 1px solid #aaa;
+    }
+    h3 {
+      span {
+        // background-image: linear-gradient(0deg, red, lightyellow);
+        background-image: linear-gradient(0deg, crimson, lightpink 55%, mistyrose);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: lightpink;
+        -webkit-text-stroke: 1px rgba(220, 20, 60, 0.8);
+      }
+      font-weight: 600;
+      margin-bottom: 0.5em;
+      color: dimgray;
+      opacity: 0.9
+    }
+  }
+}
+
+// #signUpModal div.signincard {
+//   background-image: url('/layout/vector3.png'), linear-gradient(-45deg, rgba(74,194,154,0.5), rgba(189,255,243,0.5));
+// }
+
+div.fbicon, div.ggicon {
+  a:link, a:hover, a:visited, a:active {
+    color: dimgray;
+    text-decoration: none;
+  }
+  span.oauthicons {
+    background-color: white;
+    font-size: 0.8em;
+    font-weight: 500;
+    width: 200px;
+    display: block;
+    margin: 1em auto;
+    // border: 1px solid #aaa;
+    &:hover {
+      box-shadow: 0px 0px 3px 1px #ccc;
+    }
   }
 }
 

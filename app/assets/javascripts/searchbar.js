@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ));
 
   let allContent = getContent();
-  allContent.then(content => console.log(content));
+  // allContent.then(content => console.log(content));
 
   function filterContent() {
     // console.log('filterContent')
