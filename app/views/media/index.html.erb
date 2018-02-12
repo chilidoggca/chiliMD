@@ -1,9 +1,22 @@
 <h1>Media</h1>
 
+<div class="mediaindex" style="display: flex; flex-wrap:wrap">
 <% @media.each do |medium| %>
-  <ul>
-    <li><%= link_to medium.title, medium %></li>
-  </ul>
+<div class="show_medium_div border p-1 my-1" style="width: 250px; height: 250px; overflow: hidden; display:inline-flex; flex-direction:column">
+  <div class="medium_content">
+    <%if medium.is_image? %>
+      <%=link_to image_tag(attachment_url(medium, :attachment_file, :fill, 240, 200)), medium %>
+    <% elsif medium.is_audio? %>
+      <%= audio_tag attachment_url(medium, :attachment_file), controls: true, width: '240px', autoplay: false %>
+    <% elsif medium.is_video? %>
+      <%=link_to video_tag attachment_url(medium, :attachment_file), controls: false, width: '240px', autoplay: false %>
+    <% end %>
+  </div>
+  <div class="medium_caption">
+    <h6 style="text-overflow:ellipsis;"><%= medium.title %></h6>
+  </div>
+</div>
 <% end %>
+</div>
 
 <%= render partial: 'shared/pagination', locals: {model: @media} %>

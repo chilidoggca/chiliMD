@@ -4,7 +4,7 @@
   <%= f.input :password, label: false, placeholder: 'Password', input_html: { id: 'signin-pw' }, autocomplete: "off" %>
   <%= f.submit "Sign in", class: 'btn btn-dark' %>
 <% end %>
-<div class="fbicon mt-2">
+<div class="fbicon mt-3">
   <a href="/users/auth/facebook">
     <span class="btn oauthicons">
       <img src="/layout/fb.svg.png" height="20px">&nbsp; Sign in with facebook
@@ -17,5 +17,10 @@
       <img src="/layout/gg.svg.png" height="20px">&nbsp; Sign in with google
     </span>
   </a>
+</div>
+<div class="forgotpassword" style="text-align: center;">
+  <a href="/users/password/new"
+  style="font-size: 0.8em; font-weight: 500px; text-decoration: none; line-height: 0.8em;"
+  >Forgot password</a>
 </div>
 <%#= render "devise/shared/links" %>

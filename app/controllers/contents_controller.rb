@@ -38,6 +38,7 @@ class ContentsController < ApplicationController
     @images = Medium.images.search_term_desc(@search_term).paginate(:page => params[:page])
     @audios = Medium.audios.search_term_desc(@search_term).paginate(:page => params[:page])
     @videos = Medium.videos.search_term_desc(@search_term).paginate(:page => params[:page])
+    @tags = Tag.search_term_desc(@search_term).paginate(:page => params[:page])
     @users = User.search_term_desc(@search_term).paginate(:page => params[:page])
   end
 
@@ -61,6 +62,10 @@ class ContentsController < ApplicationController
 
   def videos
     @videos = Medium.videos.search_term_desc(@search_term).paginate(:page => params[:page])
+  end
+
+  def tags
+    @tags = Tag.search_term_desc(@search_term).paginate(:page => params[:page])
   end
 
   def users

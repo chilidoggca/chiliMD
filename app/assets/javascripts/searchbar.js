@@ -103,12 +103,21 @@ document.addEventListener("DOMContentLoaded", () => {
         $(".yield.container").html(`<h3>Search Results</h3>`);
 
         function displayContent(key, content) {
-          $(".yield.container").append(`<b>${key[0].toUpperCase()+key.slice(1)}</b> (${content.length} found)<br />`);
-          for (let i=0; i<content.length; i++) {
-            $(".yield.container").append(`
-              <a href="/${key}/${content[i].id}">
+          if (content.length > 0) {
+            $(".yield.container").append(`<b>${key[0].toUpperCase()+key.slice(1)}</b> (${content.length} found)<br />`);
+            if (key === 'images' || key === 'audios' || key === 'videos') {
+              path = 'media'
+            } else {
+              path = key
+            }
+            for (let i=0; i<20; i++) {
+              $(".yield.container").append(`
+                <a href="/${path}/${content[i].id}">
                 ${content[i].title || content[i].name || content[i].first_name+' '+content[i].last_name}
               </a><br />`);
+            }
+          } else {
+            $(".yield.container").append(`<i>No ${key} found.</i><br />`);
           }
         }
 

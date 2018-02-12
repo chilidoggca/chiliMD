@@ -1,6 +1,6 @@
 class TagsController < ApplicationController
   before_action :authenticate_user!
-  # before_action :find_tag, only: [:destroy]
+  before_action :find_tag, only: [:show]
   # before_action :authorize_user!
 
   def create
@@ -8,8 +8,11 @@ class TagsController < ApplicationController
       @tag = Tag.new(tag_params)
       @tag.save
     rescue
-      redirect_back, notice: 'Tag could not be created.'
+      redirect_back notice: 'Tag could not be created.'
     end
+  end
+
+  def show
   end
 
   # def destroy
@@ -21,13 +24,13 @@ class TagsController < ApplicationController
     params.require(:tag).permit(:name)
   end
 
-  # def find_tag
-  #   @tag = Tag.find(params[:id])
-  # end
+  def find_tag
+    @tag = Tag.find(params[:id])
+  end
 
   def authorize_user!
-    unless :can?(:crud, @tag)
-      redirect_back, alert: 'Access Denied!'
+    unless can?(:crud, @tag)
+      redirect_back alert: 'Access Denied!'
     end
   end
 

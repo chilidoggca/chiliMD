@@ -110,9 +110,21 @@
 
   </div>
   <div class="tab-pane p-2 fade" id="reviewlists" role="tabpanel">
-    <% @user.reviewlists.each do |item| %>
-    <%=link_to item.reviewable.title, item.reviewable %><br />
-    <% end %>
+    <ul id="sortable">
+      <% @user.reviewlists.order("position").each do |item| %>
+        <li class="ui-state-default">
+          <span class="ui-icon ui-icon-arrowthick-2-n-s">
+          </span>
+          <%=link_to item.reviewable.title, item.reviewable %>
+        </li>
+      <% end %>
+    </ul>
   </div>
+  <script type="text/text/javascript">
+    $( function() {
+      $( "#sortable" ).sortable();
+      $( "#sortable" ).disableSelection();
+    } );
+  </script>
 
 </div>

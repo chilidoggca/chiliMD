@@ -34,6 +34,7 @@
               <option value="images">Images</option>
               <option value="audios">Audios</option>
               <option value="videos">Videos</option>
+              <option value="tags">Tags</option>
               <option value="users">Users</option>
             </select>
             <input class="form-control navsearchbar" name='search_term' type="search" placeholder="Search...">
@@ -55,12 +56,9 @@
               class: "nav-link signout"
               ) %>
           <% else %>
-            <%= link_to 'Sign In', new_user_session_path, class: "nav-link" %>
+            <%= link_to 'Sign In', new_user_session_path, class: "nav-link signin" %>
 
             <%= link_to 'Sign Up', new_user_registration_path, class: "nav-link", data: {toggle: "modal", target:"#signUpModal" }%>
-            <!-- <button type="button" class="btn btn-primary" >
-              Sign Up
-            </button> -->
           <% end %>
         </nav>
       </div>
@@ -93,15 +91,15 @@
           <% if flash[:notice].present?%>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
               <%=flash[:notice] %>
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+              <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
               </button>
             </div>
           <% elsif flash[:alert].present?%>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
               <%=flash[:alert] %>
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
+              <button type="button" class="close" data-dismiss="alert">
+                <span>&times;</span>
               </button>
             </div>
           <% end %>

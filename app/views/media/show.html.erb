@@ -2,9 +2,9 @@
 <h1><%= @medium.title %></h1>
 
 <div class="row p-3" style="display: flex; align-items: center">
-  <% if @medium.user.profile_image.present? %>
+  <% if @medium.user&.profile_image.present? %>
     <%= image_tag attachment_url(@medium.user, :profile_image, :fill, 100, 100, fallback: 'defaultprofileimage'), class: 'authorsprofileimage' %>
-  <% elsif @medium.user.default_image.present? %>
+  <% elsif @medium.user&.default_image.present? %>
     <%= image_tag @medium.user.default_image, class: "authorsprofileimage"%>
   <% end %>
   <div class="linktoauthorshow">
@@ -31,24 +31,30 @@
 </p>
 <% end %>
 
-<% if can?(:reviewlist, @post) && user_signed_in? %>
+<% if can?(:reviewlist, @medium) && user_signed_in? %>
   <% if @user_reviewlist %>
-    <%= link_to fa_icon('list-alt 2x'), reviewlists_path(@user_reviewlist), method: :delete %>
+    <%= link_to "<i class='fa fa-list-ul' style='color:red; font-size: 2em;'></i>".html_safe, reviewlist_path(@user_reviewlist), method: :delete %>
   <% else %>
-    <%= link_to fa_icon('list 2x'), post_reviewlists_path(@post), method: :post %>
+    <%= link_to "<i class='fa fa-list-ul' style='color:green; font-size: 2em;'></i>".html_safe, medium_reviewlists_path(@medium), method: :post %>
   <% end %>
 <% end %>
 
 <% if can?(:like, @medium) && user_signed_in? %>
   <% if @user_like %>
-    <%= link_to fa_icon('heart 2x'), like_path(@user_like), method: :delete %>
+    <%= link_to "<i class='fa fa-thumbs-up' style='color:red; font-size: 2em;'></i>".html_safe, like_path(@user_like), method: :delete %>
   <% else %>
-    <%= link_to fa_icon('heart-o 2x'), medium_likes_path(@medium), method: :post %>
+    <%= link_to "<i class='fa fa-thumbs-o-up' style='color:green; font-size: 2em;'></i>".html_safe, medium_likes_path(@medium), method: :post %>
   <% end %>
 <% end %>
 (<%= pluralize(@medium.likes.count, 'like') %>)
 
-<p><strong>Tags: </strong> <%= @medium.tag_list %><br /></p>
+<p>
+  <strong>Tags: </strong>
+  <% @medium.tags[0...-1].each do |tag| %>
+    <%=link_to tag.name, tag %><%= + ", " %>
+  <% end %>
+  <%=link_to @medium.tags.last.name, @medium.tags.last %>
+</p>
 
 <p>
   <%if @medium.is_image? %>

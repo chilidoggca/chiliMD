@@ -13,6 +13,9 @@ Rails.application.routes.draw do
     member do
       get :following, :followers
     end
+    resources :reviewlists do
+      collection { post :sort }
+    end
   end
   devise_scope :user do
     get 'signin', to: 'devise/sessions#new', as: :new_user_session
@@ -44,6 +47,7 @@ Rails.application.routes.draw do
   resources :contents, only: :index
   match '/contents/api', to: 'contents#api', via: :all
   resources :relationships, only: [:create, :destroy]
+  resources :tags, only: :show
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

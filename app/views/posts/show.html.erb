@@ -2,9 +2,9 @@
 <h1><%= @post.title %></h1>
 
 <div class="row p-3" style="display: flex; align-items: center">
-  <% if @post.user.profile_image.present? %>
+  <% if @post.user&.profile_image.present? %>
     <%= image_tag attachment_url(@post.user, :profile_image, :fill, 100, 100, fallback: 'defaultprofileimage'), class: 'authorsprofileimage' %>
-  <% elsif @post.user.default_image.present? %>
+  <% elsif @post.user&.default_image.present? %>
     <%= image_tag @post.user.default_image, class: "authorsprofileimage"%>
   <% end %>
   <div class="linktoauthorshow">
@@ -42,7 +42,13 @@
 
 <%= render partial: '/shared/like', locals: { likeable: @post, user_like: @user_like } %>
 
-<p><strong>Tags: </strong> <%= @post.tag_list %><br /></p>
+<p>
+  <strong>Tags: </strong>
+  <% @post.tags[0...-1].each do |tag| %>
+    <%=link_to tag.name, tag %><%= + ", " %>
+  <% end %>
+  <%=link_to @post.tags.last.name, @post.tags.last %>
+</p>
 
 <p>
   <!-- <strong>Body:</strong> -->

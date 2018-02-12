@@ -1,0 +1,23 @@
+<h1><%= @tag.name %></h1>
+Total items tagged: <%= @tag.taggings.count %><br />
+<h3>Posts</h3>
+Posts count: <%= @tag.posts.count %><br />
+<p>
+  <% @tag.posts.each do |post| %>
+    <%=link_to post.title, post %><br />
+  <% end %>
+</p>
+<h3>Media</h3>
+Media count: <%= @tag.media.count %><br />
+<p>
+  <% @tag.media.each do |medium| %>
+    <%=link_to medium.title, medium %><br />
+  <% end %>
+</p>
+<h3>Users</h3>
+Users count: <%= @tag.users.count %><br />
+<p>
+  <% @tag.users.each do |user| %>
+    <%=link_to user.full_name, user %><br />
+  <% end %>
+</p>

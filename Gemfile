@@ -58,8 +58,12 @@ gem 'faraday' #for http requests
 gem 'will_paginate', '~> 3.1.0'
 gem 'chosen-rails'
 
-gem 'jquery-ui-rails'
 gem 'lodash-rails'
+
+# making model sortable
+gem 'jquery-ui-rails'
+gem 'record_tag_helper', '~> 1.0'
+gem 'acts_as_list'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

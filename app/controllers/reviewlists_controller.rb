@@ -26,6 +26,10 @@ class ReviewlistsController < ApplicationController
     end
   end
 
+  def sort
+    render nothing: true
+  end
+
   private
 
   def find_reviewable

@@ -46,6 +46,14 @@
   <%= render partial: 'shared/pagination', locals: {model: @videos} %>
 <% end %>
 
+<% if @tags && @tags.count > 0 %>
+  <h3>Tags</h3>
+  <% @tags.each do |tag| %>
+  <%=link_to tag.name, tag %><br />
+  <% end %>
+  <%= render partial: 'shared/pagination', locals: {model: @tags} %>
+<% end %>
+
 <% if @users && @users.count > 0 %>
   <h3>Users</h3>
   <% @users.each do |user| %>

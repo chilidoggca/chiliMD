@@ -57,4 +57,6 @@ class Medium < ApplicationRecord
     self.description ||= ""
   end
 
+  self.per_page = 12
+
 end

@@ -1,7 +1,7 @@
 class LikesController < ApplicationController
   before_action :authenticate_user!
   before_action :load_likeable
-  before_action :authorize_user!
+  before_action :authorize_user!, only: [:create]
 
   def create
     like = @likeable.likes.new(params[:likeable_id])
@@ -15,6 +15,8 @@ class LikesController < ApplicationController
 
   def destroy
     like = Like.find params[:id]
+    puts @likeable
+    puts "============================================="
     @likeable = like.likeable
     if can? :destroy, like
       like.destroy

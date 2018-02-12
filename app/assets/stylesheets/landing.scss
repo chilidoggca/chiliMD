@@ -1,0 +1,12 @@
+div.landing2 {
+  position: absolute;
+  z-index: -3;
+  top: 545px;
+  left: 0;
+  width: 100%;
+  background-image: linear-gradient(to bottom, paleturquoise, lightyellow);
+  height: 500px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
