@@ -1,7 +1,8 @@
 class ReviewlistsController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_reviewable
-  before_action :find_reviewable, except: [:create]
+  before_action :load_reviewable, except: [:sort]
+  before_action :find_reviewable, except: [:create, :sort]
+  protect_from_forgery except: :sort
 
   def create
     reviewlist = @reviewable.reviewlists.new(params[:reviewable_id])
@@ -27,7 +28,9 @@ class ReviewlistsController < ApplicationController
   end
 
   def sort
-    render nothing: true
+    params[:reviewlist].each_with_index do |id, index|
+      Reviewlist.where(id: id).update_all(position: index + 1)
+    end
   end
 
   private

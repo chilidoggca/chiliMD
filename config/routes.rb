@@ -7,14 +7,17 @@ Rails.application.routes.draw do
   end
   root :to => "posts#landing"
 
+  resources :reviewlists do
+    collection do
+      patch :sort
+    end
+  end
+
   # devise routes
   devise_for :users, skip: [:sessions], controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   resources :users, only: [:index, :show] do
     member do
       get :following, :followers
-    end
-    resources :reviewlists do
-      collection { post :sort }
     end
   end
   devise_scope :user do

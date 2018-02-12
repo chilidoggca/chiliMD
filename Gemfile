@@ -64,6 +64,10 @@ gem 'lodash-rails'
 gem 'jquery-ui-rails'
 gem 'record_tag_helper', '~> 1.0'
 gem 'acts_as_list'
+gem 'chartkick'
+gem 'groupdate'
+gem 'fullcalendar-rails'
+gem 'momentjs-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

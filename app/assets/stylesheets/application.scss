@@ -12,9 +12,10 @@
  *
  *= require font-awesome
  *= require_tree .
+ *= require jquery-ui
  *= require_self
  *= require chosen
- *= require jquery-ui
+ *= require fullcalendar
  */
 
 @import 'bootstrap';

@@ -11,12 +11,17 @@
 // about supported directives.
 //
 //= require jquery3
-//= require jquery-ui
+//= require rails-ujs
 //= require lodash
+//= require jquery-ui
 //= require chosen-jquery
 //= require popper
 //= require bootstrap
 //= require ckeditor/init
-//= require rails-ujs
 //= require cocoon
+//= require Chart.bundle
+//= require chartkick
+//= require moment
+//= require fullcalendar
+//= require fullcalendar/gcal
 //= require_tree .

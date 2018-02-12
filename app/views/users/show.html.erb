@@ -17,7 +17,7 @@
       <% if can?(:follow, @user) %>
         <%= link_to 'Follow', relationships_path(@user.id), method: :post, class: 'btn btn-success btn-sm follow-button' %>
       <% end %>
-      (<%= pluralize(@user.followers.count, 'follower') %>)
+      (<%=link_to followers_user_path(@user) do %><%= pluralize(@user.followers.count, 'follower') %><%end%>)
     <% end %>
   </div>
 </div>
@@ -45,24 +45,47 @@
 
     <div class="row">
       <div class="col-md-6">
-        <div class="border p-3 mr-1">
+        <div class="border p-3 m-1">
           <strong>First Name:</strong> <%= @user.first_name %><br />
           <strong>Last Name:</strong> <%= @user.last_name %><br />
-          <strong>Interests:</strong> <%= @user.tag_list %><br />
+          <strong>Interests: </strong>
+          <% @user.tags[0...-1].each do |tag| %>
+            <%=link_to tag.name, tag %><%= + ", " %>
+          <% end %>
+          <%=link_to @user.tags.last.name, @user.tags.last %><br />
           <strong>Email:</strong> <%= @user.email %><br />
           <% if can?(:crud, @user) %>
-            <%= link_to "Edit Profile", edit_user_registration_path %>
+            <%= link_to "Edit Profile", edit_user_registration_path, class: 'btn btn-warning' %>
+            <%#= link_to "Delete", user_path(@user), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger' %>
           <% end %>
         </div>
       </div>
       <div class="col-md-6">
-        <div class="border p-3 ml-1">
+        <div class="border p-3 m-1">
           <strong>All Content:</strong> <%= @user.contributions.size %><br />
           <strong>Posts:</strong> <%= @user.posts.size %><br />
           <strong>Images:</strong> <%= @user.images.size %><br />
           <strong>Audios:</strong> <%= @user.audios.size %><br />
           <strong>Videos:</strong> <%= @user.videos.size %><br />
         </div>
+      </div>
+    </div>
+    <div class="row p-3">
+      <div class="border col-12">
+        <%= pie_chart [['Posts', @user.posts.count],['Images', @user.images.count],['Videos', @user.videos.count],['Audios', @user.audios.count]], donut: true %>
+      </div>
+      <div>
+        <strong>Contribution Summary. </strong> Break-down of user contributions by content type.
+      </div>
+    </div>
+    <div class="row p-3">
+      <div class="border col-12">
+        <%= line_chart [{ name: 'Posts', data: @user.posts.where('created_at > ?', (Time.now - 2.weeks)).group_by_day(:created_at).count },
+          { name: 'Media', data: @user.media.where('created_at > ?', (Time.now - 2.weeks)).group_by_day(:created_at).count },
+          { name: 'Comments', data: @user.comments.where('created_at > ?', (Time.now - 2.weeks)).group_by_day(:created_at).count }] %>
+      </div>
+      <div>
+        <strong>Activity Summary. </strong> User activity over last two weeks by type.
       </div>
     </div>
 
@@ -78,53 +101,59 @@
 
   </div> -->
   <div class="tab-pane p-2 fade" id="posts" role="tabpanel">
-    <%= render partial: 'posts/posts_list', locals: { posts: @user.posts.created_at_desc }%>
-    <%#= render partial: 'shared/pagination', locals: {model: @user.posts.created_at_desc } %>
+    <!-- <h5>Published</h5> -->
+    <%= render partial: 'posts/posts_list', locals: { posts: @user.posts.where({published: true}).created_at_desc }%>
+    <p></p>
+    <% if can?(:crud, @user) %>
+      <h5>Unpublished</h5>
+      <%= render partial: 'posts/posts_list', locals: { posts: @user.posts.where({published: false}).created_at_desc }%>
+      <%#= render partial: 'shared/pagination', locals: {model: @user.posts.created_at_desc } %>
+    <% end %>
   </div>
   <div class="tab-pane p-2 fade" id="media" role="tabpanel">
-
-    <h3>All Media (By Most Recent)</h3>
-    <% @user.media.created_at_desc.each do |m| %>
-    <p>
-      <%= link_to m.title, m %>
-    </p>
-    <%end%>
-    <h3>Images</h3>
+    <!-- <h3>All Media (By Most Recent)</h3> -->
+    <%# @user.media.created_at_desc.each do |m| %>
+      <%#= link_to m.title, m %>
+    <%#end%>
+    <h5>Images</h5>
     <% @user.images.each do |m| %>
-    <p>
-      <%= link_to m.title, m %>
-    </p>
+      <%= link_to m.title, m %><br />
     <%end%>
-    <h3>Audios</h3>
+    <p></p>
+    <h5>Audios</h5>
     <% @user.audios.each do |m| %>
-    <p>
-      <%= link_to m.title, m %>
-    </p>
+      <%= link_to m.title, m %><br />
     <%end%>
-    <h3>Videos</h3>
+    <p></p>
+    <h5>Videos</h5>
     <% @user.videos.each do |m| %>
-    <p>
-      <%= link_to m.title, m %>
-    </p>
+      <%= link_to m.title, m %><br />
     <%end%>
 
   </div>
   <div class="tab-pane p-2 fade" id="reviewlists" role="tabpanel">
-    <ul id="sortable">
-      <% @user.reviewlists.order("position").each do |item| %>
-        <li class="ui-state-default">
-          <span class="ui-icon ui-icon-arrowthick-2-n-s">
-          </span>
-          <%=link_to item.reviewable.title, item.reviewable %>
-        </li>
-      <% end %>
-    </ul>
+    <div class="row">
+      <div id="reviewlists-sortable" data-url="<%=sort_reviewlists_path%>" class="col-12">
+        <% @user.reviewlists.order(:position).each do |item| %>
+          <%=link_to item.reviewable, class: "reviewlists-item", id: dom_id(item) do %><%=item.reviewable.title %><br /><%end%>
+        <% end %>
+      </div>
+    </div>
+    <div class="row">
+      <div id="calendar"></div>
+    </div>
+    <script type="text/javascript">
+    $('#calendar').fullCalendar({
+      // events: '/events.json',
+      allDayDefault: true,
+      defaultView: 'month',
+      header: {
+        left: 'today prev,next',
+        center: 'title',
+        right: 'agendaDay,agendaWeek,month',
+        },
+    });
+    </script>
   </div>
-  <script type="text/text/javascript">
-    $( function() {
-      $( "#sortable" ).sortable();
-      $( "#sortable" ).disableSelection();
-    } );
-  </script>
 
 </div>
