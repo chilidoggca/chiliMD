@@ -138,10 +138,10 @@
           <%=link_to item.reviewable, class: "reviewlists-item", id: dom_id(item) do %>
             <%=fa_icon'arrows-v', style: 'color: black' %>
             &nbsp; <%=item.reviewable.title %>
-            <span style="color: black;">
+            <span style="color: black;" class="reviewable-date">
               <form class="form-inline d-inline-flex">
                 <div class="input-group date">
-                  <input type="text" value="<%=item.start_date.strftime("%F")%>">
+                  <input type="text" value="<%=item.start_date.strftime("%m\/%d\/%Y")%>" data-provide='datepicker' data-reviewable-id="<%=item.reviewable.id%>" class="reviewable-input-field">
                   <div class="input-group-append">
                     <label class="input-group-text"><i class="fa fa-calendar"></i></label>
                   </div>

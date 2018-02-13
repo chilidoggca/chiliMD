@@ -68,7 +68,9 @@ gem 'chartkick'
 gem 'groupdate'
 gem 'fullcalendar-rails'
 gem 'momentjs-rails'
-gem 'bootstrap-datepicker-rails'
+gem 'bootstrap-datepicker-rails', :require => 'bootstrap-datepicker-rails',
+                              :git => 'git://github.com/Nerian/bootstrap-datepicker-rails.git'
+gem 'active_model_serializers'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

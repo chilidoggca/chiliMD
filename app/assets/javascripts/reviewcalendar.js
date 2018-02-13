@@ -1,6 +1,15 @@
 document.addEventListener("DOMContentLoaded", function() {
+  // function eventsjson () {
+  //   return fetch(`/users/7/events.json`,{})
+  //   .then(res => res.json())
+  // }
+  // const events = eventsjson();
+  // events;
+  // console.log(events);
   $('#reviewcalendar').fullCalendar({
-    // events: '/events.json',
+    // events: events,
+    events: '/users/7/events.json',
+    eventColor: '#378006',
     allDayDefault: true,
     defaultView: 'month',
     header: {

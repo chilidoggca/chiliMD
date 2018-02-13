@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     member do
       get :following, :followers
     end
+    get 'events', to: 'reviewlists#events', as: :events
   end
   devise_scope :user do
     get 'signin', to: 'devise/sessions#new', as: :new_user_session

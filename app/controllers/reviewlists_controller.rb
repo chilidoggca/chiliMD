@@ -1,8 +1,8 @@
 class ReviewlistsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :load_reviewable, except: [:sort]
-  before_action :find_reviewable, except: [:create, :sort]
-  protect_from_forgery except: :sort
+  before_action :authenticate_user!, except: [:events]
+  before_action :load_reviewable, except: [:sort, :events]
+  before_action :find_reviewable, except: [:create, :sort, :events]
+  protect_from_forgery except: [:sort, :events, :update]
 
   def create
     reviewlist = @reviewable.reviewlists.new(params[:reviewable_id])
@@ -14,7 +14,16 @@ class ReviewlistsController < ApplicationController
       end
   end
 
+  def events
+    @user = User.find params[:user_id]
+    @reviewlists = @user.reviewlists
+    render json: @reviewlists
+  end
+
   def update
+    Reviewlist.where(id: id).update(start_time: start_time)
+    rescue
+    head :unauthorized, notice: 'Start date could not be updated.'
   end
 
   def destroy
