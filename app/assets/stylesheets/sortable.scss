@@ -4,16 +4,30 @@
 
 #reviewlists-sortable {
   // background-color: #fcfcfc;
+  input[type="text"] {
+    color: black;
+    font-size: 0.8em;
+    padding: 0 0 0 1em;
+    margin: 0 0 0 1em;
+    line-height: 0.8em;
+    width: 100px;
+    border: 1px solid #ccc;
+  }
 }
 
 a.reviewlists-item.ui-sortable-handle {
   text-decoration: none;
-  line-height: 2em;
+  line-height: 1.5em;
   padding: 0.25em;
   margin: 0.25em;
+  width: 100%;
   border-radius: 0.25em;
   background-color: #fff;
   border: 1px solid #eee;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
 }
 
 #reviewcalendar {

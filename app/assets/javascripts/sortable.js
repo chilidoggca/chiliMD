@@ -15,10 +15,10 @@ document.addEventListener("DOMContentLoaded", function() {
     event.preventDefault();
   });
 
-  $(".fa-calendar.sortable-start").datepicker({
-      dateFormat: 'mm\/dd\/yy',
-      closeText: "Close",
-      dayNamesMin: ['Su','Mo','Tu','We','Th','Fr','Sa']
-  }); //DatePickers
+  // $(".fa-calendar.sortable-start").datepicker({
+  //     dateFormat: 'mm\/dd\/yy',
+  //     closeText: "Close",
+  //     dayNamesMin: ['Su','Mo','Tu','We','Th','Fr','Sa']
+  // }); //DatePickers
 
 });

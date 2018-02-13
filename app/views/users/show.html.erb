@@ -137,12 +137,17 @@
         <% @user.reviewlists.order(:position).each do |item| %>
           <%=link_to item.reviewable, class: "reviewlists-item", id: dom_id(item) do %>
             <%=fa_icon'arrows-v', style: 'color: black' %>
-            <%=item.reviewable.title %>
-            <span style="color: black; font-size: 0.8em;">
-              Due <%=item.start_date.strftime("%F")%>
+            &nbsp; <%=item.reviewable.title %>
+            <span style="color: black;">
+              <form class="form-inline d-inline-flex">
+                <div class="input-group date">
+                  <input type="text" value="<%=item.start_date.strftime("%F")%>">
+                  <div class="input-group-append">
+                    <label class="input-group-text"><i class="fa fa-calendar"></i></label>
+                  </div>
+                </div>
+              </form>
             </span>
-              <i class="fa fa-calendar sortable-start" id="sortable-start-<%=item.id%>"></i>
-            <br />
           <%end%>
         <% end %>
       </div>
