@@ -135,25 +135,26 @@
     <div class="row">
       <div id="reviewlists-sortable" data-url="<%=sort_reviewlists_path%>" class="col-12">
         <% @user.reviewlists.order(:position).each do |item| %>
-          <%=link_to item.reviewable, class: "reviewlists-item", id: dom_id(item) do %><%=item.reviewable.title %><br /><%end%>
+          <%=link_to item.reviewable, class: "reviewlists-item", id: dom_id(item) do %>
+            <%=fa_icon'arrows-v', style: 'color: black' %>
+            <%=item.reviewable.title %>
+            <span style="color: black; font-size: 0.8em;">
+              Due <%=item.start_date.strftime("%F")%>
+            </span>
+              <i class="fa fa-calendar sortable-start" id="sortable-start-<%=item.id%>"></i>
+            <br />
+          <%end%>
         <% end %>
       </div>
     </div>
     <div class="row">
-      <div id="calendar"></div>
+      <div id="showreviewcalendar" class="col-12">
+        <button class="btn btn-primary my-3">Toggle Review Calendar</button>
+      </div>
     </div>
-    <script type="text/javascript">
-    $('#calendar').fullCalendar({
-      // events: '/events.json',
-      allDayDefault: true,
-      defaultView: 'month',
-      header: {
-        left: 'today prev,next',
-        center: 'title',
-        right: 'agendaDay,agendaWeek,month',
-        },
-    });
-    </script>
+    <div class="row">
+      <div id="reviewcalendar" class="col-12 hidecalendar"></div>
+    </div>
   </div>
 
 </div>

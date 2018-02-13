@@ -10,7 +10,10 @@
   <div class="linktoauthorshow">
     <%=link_to @medium.user&.full_name, @medium.user %><br />
     Created <%= @medium.created_at.strftime("%b %d %Y") %><br />
-    Interests: <%=@medium.user.tag_list %><br />
+    Interests: <% @medium.user&.tags[0...-1].each do |tag| %>
+      <%=link_to tag.name, tag %><%= + ", " %>
+    <% end %>
+    <%=link_to @medium.user&.tags.last.name, @medium.user&.tags.last %><br />
     <% if current_user&.following?(@medium.user) %>
       <%= link_to 'Unfollow', relationship_path(current_user.active_relationships.find_by(followed_id: @medium.user)), method: :delete, class: 'btn btn-outline-success btn-sm follow-button' %>
       (<%= pluralize(@medium.user.followers.count, 'follower') %>)<br />
