@@ -25,23 +25,61 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
 
-  // return fetch(
-  //     `/reviewlists`,
-  //     {
-  //       method: 'PATCH',
-  //       headers: {
-  //         'Authorization': API_KEY,
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify(params)
-  //     }
-  //   )
+  function changeDate() {
+    return fetch(
+      `/reviewlists/${this.currentTarget.value}`,
+      {
+        method: 'PATCH',
+        headers: {
+          // 'Authorization': API_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: {
+          'id': this.currentTarget.value,
+          'start_date': this.currentTarget.value
+        }
+      }
+    )
+  }
 
   document.querySelectorAll('.reviewable-input-field').forEach(
     node => {
       node.addEventListener('focusout', e => {
-        console.log(e.currentTarget.value);
-        console.log(e);
+        const id = e.target.dataset.reviewlistId;
+        const startDate = new Date(e.currentTarget.value);
+        // console.log(e.currentTarget.value);
+        // console.log(e);
+        // console.log(startDate);
+        $.ajax({
+          url: `/reviewlists/${id}`,
+          type: "PATCH",
+          data: JSON.stringify({
+            'id': id,
+            'start_date': startDate
+          }),
+          error: function(e) {
+            console.log(e);
+          },
+          dataType: "json",
+          contentType: 'application/json'
+        });
+        // return fetch(
+        //   `/reviewlists/${id}`,
+        //   {
+        //     method: 'PATCH',
+        //     headers: {
+        //       // 'Authorization': API_KEY,
+        //       'Content-Type': 'application/json'
+        //     },
+        //     body: {
+        //       // 'id': id,
+        //       'reviewlist': {
+        //         'id': id,
+        //         'start_date': startDate
+        //       }
+        //     }
+        //   }
+        // )
       });
   });
 

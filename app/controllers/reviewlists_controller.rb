@@ -1,8 +1,9 @@
 class ReviewlistsController < ApplicationController
-  before_action :authenticate_user!, except: [:events]
+  before_action :authenticate_user!, except: [:events, :update]
   before_action :load_reviewable, except: [:sort, :events]
   before_action :find_reviewable, except: [:create, :sort, :events]
   protect_from_forgery except: [:sort, :events, :update]
+  skip_before_action :verify_authenticity_token, only: [:update]
 
   def create
     reviewlist = @reviewable.reviewlists.new(params[:reviewable_id])
@@ -21,8 +22,13 @@ class ReviewlistsController < ApplicationController
   end
 
   def update
-    Reviewlist.where(id: id).update(start_time: start_time)
+    @reviewlist = Reviewlist.find params[:id]
+    puts "=========== id ======#{params[:id]}==="
+    puts "============start_date=====#{params[:start_date]}==="
+    puts "============reviewlist params==============#{reviewlist_params}"
+    @reviewlist.update(reviewlist_params)
     rescue
+    puts "======rescue==============="
     head :unauthorized, notice: 'Start date could not be updated.'
   end
 
@@ -52,4 +58,9 @@ class ReviewlistsController < ApplicationController
     resource, id = request.path.split('/')[1,2]
     @reviewable = resource.singularize.classify.constantize.find(id)
   end
+
+  def reviewlist_params
+    params.require(:reviewlist).permit(:id, :start_date)
+  end
+
 end
