@@ -143,35 +143,73 @@ posts = Post.all
 media = Medium.all
 tags = Tag.all
 posts.each do |post|
-  tags_arr = []
-  rand(1..4).times.each do
-    ts = tags.sample
-    tags_arr << ts unless tags_arr.include?(ts)
+  if post.id >= 220
+    rand(1..5).times.each do
+      Comment.create(
+        commentable: post,
+        body: Faker::Hipster.paragraph(2, false, 5),
+        user: users.sample,
+      )
+    end
+    users_arr = []
+    rand(3..20).times.each do
+      us = users.sample
+      users_arr << us unless users_arr.include?(us)
+    end
+    users_arr.each do |u|
+      Like.create(
+        likeable: post,
+        user: u
+      )
+    end
   end
-  tags_arr.each do |t|
-    Tagging.create(tag: t, taggable: post)
-  end
+  # tags_arr = []
+  # rand(1..4).times.each do
+  #   ts = tags.sample
+  #   tags_arr << ts unless tags_arr.include?(ts)
+  # end
+  # tags_arr.each do |t|
+  #   Tagging.create(tag: t, taggable: post)
+  # end
 end
 media.each do |medium|
-  tags_arr = []
-  rand(1..4).times.each do
-    ts = tags.sample
-    tags_arr << ts unless tags_arr.include?(ts)
+  rand(1..5).times.each do
+    Comment.create(
+      commentable: medium,
+      body: Faker::Hipster.paragraph(2, false, 5),
+      user: users.sample,
+    )
   end
-  tags_arr.each do |t|
-    Tagging.create(tag: t, taggable: medium)
+  users_arr = []
+  rand(3..20).times.each do
+    us = users.sample
+    users_arr << us unless users_arr.include?(us)
   end
+  users_arr.each do |u|
+    Like.create(
+      likeable: medium,
+      user: u
+    )
+  end
+  # tags_arr = []
+  # rand(1..4).times.each do
+  #   ts = tags.sample
+  #   tags_arr << ts unless tags_arr.include?(ts)
+  # end
+  # tags_arr.each do |t|
+  #   Tagging.create(tag: t, taggable: medium)
+  # end
 end
-users.each do |user|
-  tags_arr = []
-  rand(1..4).times.each do
-    ts = tags.sample
-    tags_arr << ts unless tags_arr.include?(ts)
-  end
-  tags_arr.each do |t|
-    Tagging.create(tag: t, taggable: user)
-  end
-end
+# users.each do |user|
+#   tags_arr = []
+#   rand(1..4).times.each do
+#     ts = tags.sample
+#     tags_arr << ts unless tags_arr.include?(ts)
+#   end
+#   tags_arr.each do |t|
+#     Tagging.create(tag: t, taggable: user)
+#   end
+# end
 
 
 

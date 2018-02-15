@@ -4,6 +4,8 @@ class UsersController < ApplicationController
 
   def show
     # @user.posts = @user.posts.created_at_desc.paginate(page: params[:page])
+    @following_posts = Post.where(user_id: @user.following.pluck(:id)).order(created_at: :desc)
+    @following_media = Medium.where(user_id: @user.following.pluck(:id)).order(created_at: :desc)
   end
 
   def index

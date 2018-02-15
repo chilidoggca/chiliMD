@@ -7,9 +7,9 @@
     <%if medium.is_image? %>
       <%=link_to image_tag(attachment_url(medium, :attachment_file, :fill, 240, 200)), medium %>
     <% elsif medium.is_audio? %>
-      <%= audio_tag attachment_url(medium, :attachment_file), controls: true, width: '240px', autoplay: false %>
+      <%=link_to medium do%><%= audio_tag attachment_url(medium, :attachment_file), controls: true, width: '240px', autoplay: false %><% end %>
     <% elsif medium.is_video? %>
-      <%=link_to video_tag attachment_url(medium, :attachment_file), controls: false, width: '240px', autoplay: false %>
+      <%=link_to medium do%><%= video_tag attachment_url(medium, :attachment_file), controls: false, width: '240px', autoplay: false %><% end %>
     <% end %>
   </div>
   <div class="medium_caption">

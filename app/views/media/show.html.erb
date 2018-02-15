@@ -1,86 +1,109 @@
 <% title @medium.title %>
 <h1><%= @medium.title %></h1>
 
-<div class="row p-3" style="display: flex; align-items: center">
-  <% if @medium.user&.profile_image.present? %>
-    <%= image_tag attachment_url(@medium.user, :profile_image, :fill, 100, 100, fallback: 'defaultprofileimage'), class: 'authorsprofileimage' %>
-  <% elsif @medium.user&.default_image.present? %>
-    <%= image_tag @medium.user.default_image, class: "authorsprofileimage"%>
-  <% end %>
-  <div class="linktoauthorshow">
-    <%=link_to @medium.user&.full_name, @medium.user %><br />
-    Created <%= @medium.created_at.strftime("%b %d %Y") %><br />
-    Interests: <% @medium.user&.tags[0...-1].each do |tag| %>
-      <%=link_to tag.name, tag %><%= + ", " %>
-    <% end %>
-    <%=link_to @medium.user&.tags.last.name, @medium.user&.tags.last %><br />
-    <% if current_user&.following?(@medium.user) %>
-      <%= link_to 'Unfollow', relationship_path(current_user.active_relationships.find_by(followed_id: @medium.user)), method: :delete, class: 'btn btn-outline-success btn-sm follow-button' %>
-      (<%= pluralize(@medium.user.followers.count, 'follower') %>)<br />
-    <% else %>
-      <%# if current_user != @medium.user %>
-      <% if can?(:follow, @medium.user) %>
-        <%= link_to 'Follow', relationships_path(@medium.user.id), method: :post, class: 'btn btn-success btn-sm follow-button' %>
+<div class="row">
+  <div class="col-12 col-lg-8">
+
+    <div class="row p-3" style="display: flex; align-items: center">
+      <% if @medium.user&.profile_image.present? %>
+        <%= image_tag attachment_url(@medium.user, :profile_image, :fill, 100, 100, fallback: 'defaultprofileimage'), class: 'authorsprofileimage' %>
+      <% elsif @medium.user&.default_image.present? %>
+        <%= image_tag @medium.user.default_image, class: "authorsprofileimage"%>
       <% end %>
-      (<%= pluralize(@medium.user.followers.count, 'follower') %>)<br />
+      <div class="linktoauthorshow">
+        <%=link_to @medium.user&.full_name, @medium.user %><br />
+        Created <%= @medium.created_at.strftime("%b %d %Y") %><br />
+        Interests: <% @medium.user&.tags[0...-1].each do |tag| %>
+          <%=link_to tag.name, tag %><%= + ", " %>
+        <% end %>
+        <%=link_to @medium.user&.tags.last.name, @medium.user&.tags.last %><br />
+        <% if current_user&.following?(@medium.user) %>
+          <%= link_to 'Unfollow', relationship_path(current_user.active_relationships.find_by(followed_id: @medium.user)), method: :delete, class: 'btn btn-outline-success btn-sm follow-button' %>
+          (<%= pluralize(@medium.user.followers.count, 'follower') %>)<br />
+        <% else %>
+          <%# if current_user != @medium.user %>
+          <% if can?(:follow, @medium.user) %>
+            <%= link_to 'Follow', relationships_path(@medium.user.id), method: :post, class: 'btn btn-success btn-sm follow-button' %>
+          <% end %>
+          (<%= pluralize(@medium.user.followers.count, 'follower') %>)<br />
+        <% end %>
+      </div>
+    </div>
+
+    <%if can?(:crud, @medium) %>
+    <p>
+      <%= link_to 'Delete Medium', @medium, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+      <%= link_to 'Edit', edit_medium_path(@medium), class: 'btn btn-warning' %>
+    </p>
+    <% end %>
+
+    <% if can?(:reviewlist, @medium) && user_signed_in? %>
+      <% if @user_reviewlist %>
+        <%= link_to "<i class='fa fa-list-ul' style='color:red; font-size: 2em;'></i>".html_safe, reviewlist_path(@user_reviewlist), method: :delete %>
+      <% else %>
+        <%= link_to "<i class='fa fa-list-ul' style='color:green; font-size: 2em;'></i>".html_safe, medium_reviewlists_path(@medium), method: :post %>
+      <% end %>
+    <% end %>
+
+    <% if can?(:like, @medium) && user_signed_in? %>
+      <% if @user_like %>
+        <%= link_to "<i class='fa fa-thumbs-up' style='color:red; font-size: 2em;'></i>".html_safe, like_path(@user_like), method: :delete %>
+      <% else %>
+        <%= link_to "<i class='fa fa-thumbs-o-up' style='color:green; font-size: 2em;'></i>".html_safe, medium_likes_path(@medium), method: :post %>
+      <% end %>
+    <% end %>
+    (<%= pluralize(@medium.likes.count, 'like') %>)
+
+    <p>
+      <strong>Tags: </strong>
+      <% if @medium.tags.present? %>
+        <% @medium&.tags[0...-1].each do |tag| %>
+          <%=link_to tag.name, tag %><%= + ", " %>
+        <% end %>
+        <%=link_to @medium&.tags&.last.name, @medium&.tags&.last %>
+      <% end %>
+    </p>
+
+    <p>
+      <%if @medium.is_image? %>
+        <%=link_to image_tag(attachment_url(@medium, :attachment_file, :limit, 400, 300)), attachment_url(@medium, :attachment_file) %>
+      <% elsif @medium.is_audio? %>
+        <%= audio_tag attachment_url(@medium, :attachment_file), controls: true, width: '400px', autoplay: false %>
+      <% elsif @medium.is_video? %>
+        <%= video_tag attachment_url(@medium, :attachment_file), controls: true, width: '600px', autoplay: false %>
+      <% end %>
+    </p>
+
+    <p>
+      <strong>Description:</strong>
+      <%= @medium.description %>
+    </p>
+
+    <% if @medium.references.present? %>
+      <h5 style="text-transform:uppercase; font-weight: bold">References</h5>
+      <p>
+        <%= render 'shared/show_reference' %>
+      </p>
+    <% end %>
+
+    <h3>Comments</h3>
+    <%= render partial: 'comments/form', locals: { commentable: @medium } %>
+    <%= render 'comments/comments' %>
+
+  </div>
+  <div class="col-12 col-lg-4">
+    <% if @medium&.user&.media.present? %>
+      <h5>More Media by <%=@medium.user.full_name %></h5>
+      <div style="display: flex; flex-wrap: wrap;">
+        <%= render partial: '/posts/show_media', locals: {media: @medium&.user&.media&.where.not({id: @medium.id}).order(created_at: :desc).limit(3)} %>
+      </div>
+    <% end %>
+    <p>&nbsp;</p>
+    <% if @medium&.user&.posts.present? %>
+      <h5>More Posts by <%=@medium.user.full_name %></h5>
+      <% @medium&.user&.posts&.where({published: true}).order(created_at: :desc)&.limit(3).each do |post| %>
+        <div><%=link_to post.title, post %></div>
+      <% end %>
     <% end %>
   </div>
 </div>
-
-<%if can?(:crud, @medium) %>
-<p>
-  <%= link_to 'Delete Medium', @medium, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
-  <%= link_to 'Edit', edit_medium_path(@medium), class: 'btn btn-warning' %>
-</p>
-<% end %>
-
-<% if can?(:reviewlist, @medium) && user_signed_in? %>
-  <% if @user_reviewlist %>
-    <%= link_to "<i class='fa fa-list-ul' style='color:red; font-size: 2em;'></i>".html_safe, reviewlist_path(@user_reviewlist), method: :delete %>
-  <% else %>
-    <%= link_to "<i class='fa fa-list-ul' style='color:green; font-size: 2em;'></i>".html_safe, medium_reviewlists_path(@medium), method: :post %>
-  <% end %>
-<% end %>
-
-<% if can?(:like, @medium) && user_signed_in? %>
-  <% if @user_like %>
-    <%= link_to "<i class='fa fa-thumbs-up' style='color:red; font-size: 2em;'></i>".html_safe, like_path(@user_like), method: :delete %>
-  <% else %>
-    <%= link_to "<i class='fa fa-thumbs-o-up' style='color:green; font-size: 2em;'></i>".html_safe, medium_likes_path(@medium), method: :post %>
-  <% end %>
-<% end %>
-(<%= pluralize(@medium.likes.count, 'like') %>)
-
-<p>
-  <strong>Tags: </strong>
-  <% @medium.tags[0...-1].each do |tag| %>
-    <%=link_to tag.name, tag %><%= + ", " %>
-  <% end %>
-  <%=link_to @medium.tags.last.name, @medium.tags.last %>
-</p>
-
-<p>
-  <%if @medium.is_image? %>
-    <%=link_to image_tag(attachment_url(@medium, :attachment_file, :limit, 200, 200)), attachment_url(@medium, :attachment_file) %>
-  <% elsif @medium.is_audio? %>
-    <%= audio_tag attachment_url(@medium, :attachment_file), controls: true, width: '400px', autoplay: false %>
-  <% elsif @medium.is_video? %>
-    <%= video_tag attachment_url(@medium, :attachment_file), controls: false, width: '400px', autoplay: false %>
-  <% end %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @medium.description %>
-</p>
-
-<% if @medium.references.present? %>
-  <h5 style="text-transform:uppercase; font-weight: bold">References</h5>
-  <p>
-    <%= render 'shared/show_reference' %>
-  </p>
-<% end %>
-
-<h3>Comments</h3>
-<%= render partial: 'comments/form', locals: { commentable: @medium } %>
-<%= render 'comments/comments' %>

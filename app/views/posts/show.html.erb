@@ -1,77 +1,90 @@
 <% title @post.title %>
 <h1><%= @post.title %></h1>
+<div class="row">
+  <div class="col12 col-lg-8">
 
-<div class="row p-3" style="display: flex; align-items: center">
-  <% if @post.user&.profile_image.present? %>
-    <%= image_tag attachment_url(@post.user, :profile_image, :fill, 100, 100, fallback: 'defaultprofileimage'), class: 'authorsprofileimage' %>
-  <% elsif @post.user&.default_image.present? %>
-    <%= image_tag @post.user.default_image, class: "authorsprofileimage"%>
+  <div class="row p-3" style="display: flex; align-items: center">
+    <% if @post.user&.profile_image.present? %>
+      <%= image_tag attachment_url(@post.user, :profile_image, :fill, 100, 100, fallback: 'defaultprofileimage'), class: 'authorsprofileimage' %>
+    <% elsif @post.user&.default_image.present? %>
+      <%= image_tag @post.user.default_image, class: "authorsprofileimage"%>
+    <% end %>
+    <div class="linktoauthorshow">
+      <%=link_to @post.user&.full_name, @post.user %><br />
+      Created <%= @post.created_at.strftime("%b %d %Y") %><br />
+      Interests: <% @post.user&.tags[0...-1].each do |tag| %>
+        <%=link_to tag.name, tag %><%= + ", " %>
+      <% end %>
+      <%=link_to @post.user&.tags.last.name, @post.user&.tags.last %><br />
+      <% if current_user&.following?(@post.user) %>
+        <%= link_to 'Unfollow', relationship_path(current_user.active_relationships.find_by(followed_id: @post.user)), method: :delete, class: 'btn btn-outline-success btn-sm follow-button' %>
+        (<%= pluralize(@post.user.followers.count, 'follower') %>)<br />
+      <% else %>
+        <%# if current_user != @post.user %>
+        <% if can?(:follow, @post.user) %>
+          <%= link_to 'Follow', relationships_path(@post.user.id), method: :post, class: 'btn btn-success btn-sm follow-button' %>
+        <% end %>
+        (<%= pluralize(@post.user.followers.count, 'follower') %>)<br />
+      <% end %>
+    </div>
+  </div>
+
+  <% if can?(:crud, @post) %>
+  <p>
+    <%= link_to 'Delete', @post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+    <%= link_to 'Edit', edit_post_path(@post), class: 'btn btn-warning' %><br />
+  </p>
+  <strong>Published:</strong> <%= @post.published %><br />
   <% end %>
-  <div class="linktoauthorshow">
-    <%=link_to @post.user&.full_name, @post.user %><br />
-    Created <%= @post.created_at.strftime("%b %d %Y") %><br />
-    Interests: <% @post.user&.tags[0...-1].each do |tag| %>
+
+  <% if can?(:reviewlist, @post) && user_signed_in? %>
+    <% if @user_reviewlist %>
+      <%= link_to "<i class='fa fa-list-ul' style='color:red; font-size: 2em;'></i>".html_safe, reviewlist_path(@user_reviewlist), method: :delete %>
+    <% else %>
+      <%= link_to "<i class='fa fa-list-ul' style='color:green; font-size: 2em;'></i>".html_safe, post_reviewlists_path(@post), method: :post %>
+    <% end %>
+  <% end %>
+
+  <%= render partial: '/shared/like', locals: { likeable: @post, user_like: @user_like } %>
+
+  <p>
+    <strong>Tags: </strong>
+    <% @post.tags[0...-1].each do |tag| %>
       <%=link_to tag.name, tag %><%= + ", " %>
     <% end %>
-    <%=link_to @post.user&.tags.last.name, @post.user&.tags.last %><br />
-    <% if current_user&.following?(@post.user) %>
-      <%= link_to 'Unfollow', relationship_path(current_user.active_relationships.find_by(followed_id: @post.user)), method: :delete, class: 'btn btn-outline-success btn-sm follow-button' %>
-      (<%= pluralize(@post.user.followers.count, 'follower') %>)<br />
-    <% else %>
-      <%# if current_user != @post.user %>
-      <% if can?(:follow, @post.user) %>
-        <%= link_to 'Follow', relationships_path(@post.user.id), method: :post, class: 'btn btn-success btn-sm follow-button' %>
+    <%=link_to @post.tags.last.name, @post.tags.last %>
+  </p>
+
+  <p>
+    <!-- <strong>Body:</strong> -->
+    <%= @post.body.html_safe %>
+  </p>
+
+  <% if @post.references.present? %>
+    <h5 style="text-transform:uppercase; font-weight: bold">References</h5>
+    <p>
+      <%= render 'shared/show_reference' %>
+    </p>
+  <% end %>
+
+  <h3>Comments</h3>
+  <%= render partial: 'comments/form', locals: { commentable: @post } %>
+  <%= render 'comments/comments' %>
+
+  </div>
+  <div class="col-12 col-lg-4">
+    <% if @post.media.present? %>
+      <h5>Attached Media</h5>
+      <div style="display: flex; flex-wrap: wrap;">
+        <%= render partial: 'show_media', locals: {media: @post.media} %>
+      </div>
+    <% end %>
+    <p>&nbsp;</p>
+    <% if @post&.user&.posts.present? %>
+      <h5>More Posts by <%=@post.user.full_name %></h5>
+      <% @post&.user&.posts.where.not({id: @post.id})&.where({published: true}).order(created_at: :desc)&.limit(3).each do |post| %>
+        <div><%=link_to post.title, post %></div>
       <% end %>
-      (<%= pluralize(@post.user.followers.count, 'follower') %>)<br />
     <% end %>
   </div>
 </div>
-
-<% if can?(:crud, @post) %>
-<p>
-  <%= link_to 'Delete', @post, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
-  <%= link_to 'Edit', edit_post_path(@post), class: 'btn btn-warning' %><br />
-</p>
-<strong>Published:</strong> <%= @post.published %><br />
-<% end %>
-
-<% if can?(:reviewlist, @post) && user_signed_in? %>
-  <% if @user_reviewlist %>
-    <%= link_to "<i class='fa fa-list-ul' style='color:red; font-size: 2em;'></i>".html_safe, reviewlist_path(@user_reviewlist), method: :delete %>
-  <% else %>
-    <%= link_to "<i class='fa fa-list-ul' style='color:green; font-size: 2em;'></i>".html_safe, post_reviewlists_path(@post), method: :post %>
-  <% end %>
-<% end %>
-
-<%= render partial: '/shared/like', locals: { likeable: @post, user_like: @user_like } %>
-
-<p>
-  <strong>Tags: </strong>
-  <% @post.tags[0...-1].each do |tag| %>
-    <%=link_to tag.name, tag %><%= + ", " %>
-  <% end %>
-  <%=link_to @post.tags.last.name, @post.tags.last %>
-</p>
-
-<p>
-  <!-- <strong>Body:</strong> -->
-  <%= @post.body.html_safe %>
-</p>
-
-<% if @post.media.present? %>
-  <h5 style="text-transform:uppercase; font-weight: bold">Attached Media</h5>
-  <p>
-    <%= render 'show_media' %>
-  </p>
-<% end %>
-
-<% if @post.references.present? %>
-  <h5 style="text-transform:uppercase; font-weight: bold">References</h5>
-  <p>
-    <%= render 'shared/show_reference' %>
-  </p>
-<% end %>
-
-<h3>Comments</h3>
-<%= render partial: 'comments/form', locals: { commentable: @post } %>
-<%= render 'comments/comments' %>

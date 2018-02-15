@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
   $('#reviewcalendar').fullCalendar({
     // events: events,
     events: '/users/7/events.json',
-    eventColor: '#378006',
+    eventColor: 'dodgerblue',
     allDayDefault: true,
     defaultView: 'month',
     header: {

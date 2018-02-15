@@ -1,4 +1,4 @@
-<% @media.each do |medium| %>
+<% media.each do |medium| %>
 
 <div class="show_medium_div border p-1 my-1" style="width: 250px; height: 250px; overflow: hidden; display:inline-flex; flex-direction:column">
   <div class="medium_content">
@@ -7,7 +7,7 @@
     <% elsif medium.is_audio? %>
       <%= audio_tag attachment_url(medium, :attachment_file), controls: true, width: '400px', autoplay: false %>
     <% elsif medium.is_video? %>
-      <%=link_to video_tag attachment_url(medium, :attachment_file), controls: false, width: '400px', autoplay: false %>
+      <%=link_to medium do %><%=video_tag attachment_url(medium, :attachment_file), controls: false, width: '400px', autoplay: false %><% end %>
     <% end %>
   </div>
   <div class="medium_caption">

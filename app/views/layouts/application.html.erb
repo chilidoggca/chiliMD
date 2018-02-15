@@ -64,8 +64,13 @@
       </div>
       <div class="sidebar hidesidebar">
         <% if user_signed_in? %>
-          <p><%= fa_icon('file') %> <%=link_to 'New Post', new_post_path %></p>
+          <p><%= fa_icon('user') %> <%=link_to 'My Profile', current_user %></p>
+          <hr />
+          <p><%= fa_icon('pencil') %> <%=link_to 'New Post', new_post_path %></p>
           <p><%= fa_icon('upload') %> <%=link_to 'New Medium', new_medium_path %></p>
+          <hr />
+          <p><%= fa_icon('file-text') %> <%=link_to 'Posts', posts_path %></p>
+          <p><%= fa_icon('file-image-o') %> <%=link_to 'Media', media_path %></p>
         <% else %>
           <ul class="nav nav-tabs" id="signintabs" role="tablist">
             <li class="nav-item">

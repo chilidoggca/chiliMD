@@ -1,5 +1,5 @@
 class ReviewlistSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :start, :end, :url, #:reviewable_type
+  attributes :id, :title, :description, :start, :url, #:end, :reviewable_type
 
   def title
     object.reviewable.title
@@ -13,9 +13,9 @@ class ReviewlistSerializer < ActiveModel::Serializer
     object.start_date
   end
 
-  def end
-    object.start_date + 3.hours
-  end
+  # def end
+  #   object.start_date
+  # end
 
   def url
     if object.reviewable_type == 'Post'

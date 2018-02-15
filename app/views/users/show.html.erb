@@ -39,13 +39,16 @@
   <li class="nav-item">
     <a class="nav-link" id="reviewlists-tab" data-toggle="tab" href="#reviewlists">Review List</a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" id="following-tab" data-toggle="tab" href="#following">Following</a>
+  </li>
 </ul>
 <div class="tab-content" id="user-show-tab-content">
   <div class="tab-pane p-2 fade show active" id="home" role="tabpanel">
 
-    <div class="row">
+    <div class="row my-3">
       <div class="col-md-6">
-        <div class="border p-3 m-1">
+        <div class="border p-3 ml-2 mr-1">
           <strong>First Name:</strong> <%= @user.first_name %><br />
           <strong>Last Name:</strong> <%= @user.last_name %><br />
           <strong>Interests: </strong>
@@ -61,7 +64,7 @@
         </div>
       </div>
       <div class="col-md-6">
-        <div class="border p-3 m-1">
+        <div class="border p-3 mr-2 ml-1">
           <strong>All Content:</strong> <%= @user.contributions.size %><br />
           <strong>Posts:</strong> <%= @user.posts.size %><br />
           <strong>Images:</strong> <%= @user.images.size %><br />
@@ -70,22 +73,28 @@
         </div>
       </div>
     </div>
-    <div class="row p-3">
-      <div class="border col-12">
-        <%= pie_chart [['Posts', @user.posts.count],['Images', @user.images.count],['Videos', @user.videos.count],['Audios', @user.audios.count]], donut: true %>
+    <div class="row my-3">
+      <div class="col-md-6">
+        <div class="border p-3 ml-2 mr-1">
+          <div>
+            <%= pie_chart [['Posts', @user.posts.count],['Images', @user.images.count],['Videos', @user.videos.count],['Audios', @user.audios.count]], donut: true %>
+          </div>
+          <div>
+            <strong>Contribution Summary. </strong> Break-down of user contributions by content type.
+          </div>
+        </div>
       </div>
-      <div>
-        <strong>Contribution Summary. </strong> Break-down of user contributions by content type.
-      </div>
-    </div>
-    <div class="row p-3">
-      <div class="border col-12">
-        <%= line_chart [{ name: 'Posts', data: @user.posts.where('created_at > ?', (Time.now - 2.weeks)).group_by_day(:created_at).count },
-          { name: 'Media', data: @user.media.where('created_at > ?', (Time.now - 2.weeks)).group_by_day(:created_at).count },
-          { name: 'Comments', data: @user.comments.where('created_at > ?', (Time.now - 2.weeks)).group_by_day(:created_at).count }] %>
-      </div>
-      <div>
-        <strong>Activity Summary. </strong> User activity over last two weeks by type.
+      <div class="col-md-6">
+        <div class="border p-3 mr-2 ml-1">
+          <div>
+            <%= line_chart [{ name: 'Posts', data: @user.posts.where('created_at > ?', (Time.now - 2.weeks)).group_by_day(:created_at).count },
+              { name: 'Media', data: @user.media.where('created_at > ?', (Time.now - 2.weeks)).group_by_day(:created_at).count },
+              { name: 'Comments', data: @user.comments.where('created_at > ?', (Time.now - 2.weeks)).group_by_day(:created_at).count }] %>
+          </div>
+          <div>
+            <strong>Activity Summary. </strong> User activity over last two weeks by type.
+          </div>
+        </div>
       </div>
     </div>
 
@@ -116,17 +125,17 @@
       <%#= link_to m.title, m %>
     <%#end%>
     <h5>Images</h5>
-    <% @user.images.each do |m| %>
+    <% @user.images.created_at_desc.each do |m| %>
       <%= link_to m.title, m %><br />
     <%end%>
     <p></p>
     <h5>Audios</h5>
-    <% @user.audios.each do |m| %>
+    <% @user.audios.created_at_desc.each do |m| %>
       <%= link_to m.title, m %><br />
     <%end%>
     <p></p>
     <h5>Videos</h5>
-    <% @user.videos.each do |m| %>
+    <% @user.videos.created_at_desc.each do |m| %>
       <%= link_to m.title, m %><br />
     <%end%>
 
@@ -141,7 +150,7 @@
             <span style="color: black;" class="reviewable-date">
               <form class="form-inline d-inline-flex">
                 <div class="input-group date">
-                  <input type="text" value="<%=item.start_date.strftime("%m\/%d\/%Y")%>" data-provide='datepicker' data-reviewlist-id="<%=item.id%>" class="reviewable-input-field">
+                  <input type="text" value="<%=item&.start_date&.strftime("%m\/%d\/%Y")%>" data-provide='datepicker' data-reviewlist-id="<%=item.id%>" class="reviewable-input-field">
                   <div class="input-group-append">
                     <label class="input-group-text"><i class="fa fa-calendar"></i></label>
                   </div>
@@ -154,12 +163,44 @@
     </div>
     <div class="row">
       <div id="showreviewcalendar" class="col-12">
-        <button class="btn btn-primary my-3">Toggle Review Calendar</button>
+        <button class="btn btn-primary my-3">Toggle Calendar</button>
       </div>
     </div>
     <div class="row">
       <div id="reviewcalendar" class="col-12 hidecalendar"></div>
     </div>
+  </div>
+  <div class="tab-pane p-2 fade" id="following" role="tabpanel">
+    <h5>Recently Followed</h5>
+    <% @user&.active_relationships&.order(created_at: :desc).limit(5).each do |f| %>
+      <%= link_to User&.find(f.followed_id)&.full_name, user_path(f.followed_id)  %><br />
+    <%end%>
+    <p></p>
+    <h5>Recent Posts</h5>
+    <% @following_posts&.limit(10).each do |post| %>
+      <%= link_to post do%><%=post&.title %><% end %><span style="font-size: 0.8em;"> by <%= post&.user&.full_name%></span><br />
+    <%end %>
+    <p></p>
+    <h5>Recent Media</h5>
+      <div style="display: flex; flex-wrap: wrap">
+      <% @following_media.limit(3).each do |medium| %>
+        <div class="show_medium_div border p-1 my-1" style="width: 250px; height: 250px; overflow: hidden; display:inline-flex; flex-direction:column">
+          <div class="medium_content">
+            <%if medium.is_image? %>
+              <%=link_to image_tag(attachment_url(medium, :attachment_file, :fill, 240, 200)), medium %>
+            <% elsif medium.is_audio? %>
+              <%=link_to medium do %><%= audio_tag attachment_url(medium, :attachment_file), controls: true, width: '240px', autoplay: false %><% end %>
+            <% elsif medium.is_video? %>
+              <%=link_to medium do %><%= video_tag attachment_url(medium, :attachment_file), controls: false, width: '240px', autoplay: false %><% end %>
+            <% end %>
+          </div>
+          <div class="medium_caption">
+            <h6 style="text-overflow:ellipsis;"><%= medium.title %></h6>
+          </div>
+        </div>
+      <%end %>
+    </div>
+
   </div>
 
 </div>

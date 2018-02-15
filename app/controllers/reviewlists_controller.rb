@@ -23,13 +23,9 @@ class ReviewlistsController < ApplicationController
 
   def update
     @reviewlist = Reviewlist.find params[:id]
-    puts "=========== id ======#{params[:id]}==="
-    puts "============start_date=====#{params[:start_date]}==="
-    puts "============reviewlist params==============#{reviewlist_params}"
     @reviewlist.update(reviewlist_params)
     rescue
-    puts "======rescue==============="
-    head :unauthorized, notice: 'Start date could not be updated.'
+    head :unauthorized, notice: 'Reviewlist could not be updated.'
   end
 
   def destroy

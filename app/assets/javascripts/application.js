@@ -19,9 +19,9 @@
 //= require bootstrap
 //= require ckeditor/init
 //= require cocoon
+//= require moment
 //= require Chart.bundle
 //= require chartkick
-//= require moment
 //= require fullcalendar
 //= require fullcalendar/gcal
 //= require bootstrap-datepicker

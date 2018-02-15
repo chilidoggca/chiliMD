@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
               path = key
             }
-            for (let i=0; i<20; i++) {
+            for (let i=0; i<content.length; i++) {
               $(".yield.container").append(`
                 <a href="/${path}/${content[i].id}">
                 ${content[i].title || content[i].name || content[i].first_name+' '+content[i].last_name}

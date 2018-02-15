@@ -1,14 +1,16 @@
 <% @references.each do |reference| %>
 
-<div class="show_reference_div">
-  <% if reference.doi.present? %>
-    <%=reference.body%> <%=link_to fa_icon('external-link'), reference.url, target: "_blank" %>
-    <!-- <%#=reference.body%> doi: <%#=link_to reference.doi, reference.url, target: "_blank" %> -->
-  <% elsif reference.url.present? %>
-    <%=reference.body.html_safe %> <%=link_to fa_icon('external-link'), reference.url, target: "_blank" %>
-  <%else%>
-    <%=reference.body %>
-  <% end %>
-</div>
+<p>
+  <div class="show_reference_div">
+    <% if reference.doi.present? %>
+      <%=reference.body%> <%=link_to fa_icon('external-link'), reference.url, target: "_blank" %>
+      <!-- <%#=reference.body%> doi: <%#=link_to reference.doi, reference.url, target: "_blank" %> -->
+    <% elsif reference.url.present? %>
+      <%=reference.body.html_safe %> <%=link_to fa_icon('external-link'), reference.url, target: "_blank" %>
+    <%else%>
+      <%=reference.body %>
+    <% end %>
+  </div>
+</p>
 
 <%end%>
