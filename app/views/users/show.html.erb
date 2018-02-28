@@ -52,10 +52,12 @@
           <strong>First Name:</strong> <%= @user.first_name %><br />
           <strong>Last Name:</strong> <%= @user.last_name %><br />
           <strong>Interests: </strong>
-          <% @user&.tags[0...-1].each do |tag| %>
-            <%=link_to tag&.name, tag %><%= + ", " %>
+          <% if @user.tags.present? %>
+            <% @user&.tags[0...-1].each do |tag| %>
+              <%=link_to tag&.name, tag %><%= + ", " %>
+            <% end %>
+            <%=link_to @user&.tags&.last&.name, @user&.tags&.last %><br />
           <% end %>
-          <%=link_to @user&.tags&.last&.name, @user&.tags&.last %><br />
           <strong>Email:</strong> <%= @user.email %><br />
           <% if can?(:crud, @user) %>
             <%= link_to "Edit Profile", edit_user_registration_path, class: 'btn btn-warning' %>
