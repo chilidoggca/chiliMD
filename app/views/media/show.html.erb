@@ -13,10 +13,12 @@
       <div class="linktoauthorshow">
         <%=link_to @medium.user&.full_name, @medium.user %><br />
         Created <%= @medium.created_at.strftime("%b %d %Y") %><br />
-        Interests: <% @medium.user&.tags[0...-1].each do |tag| %>
-          <%=link_to tag.name, tag %><%= + ", " %>
+        <% if @medium.user.tags.present? %>
+          Interests: <% @medium.user&.tags[0...-1].each do |tag| %>
+            <%=link_to tag&.name, tag %><%= + ", " %>
+          <% end %>
+          <%=link_to @medium.user&.tags.last.name, @medium.user&.tags.last %><br />
         <% end %>
-        <%=link_to @medium.user&.tags.last.name, @medium.user&.tags.last %><br />
         <% if current_user&.following?(@medium.user) %>
           <%= link_to 'Unfollow', relationship_path(current_user.active_relationships.find_by(followed_id: @medium.user)), method: :delete, class: 'btn btn-outline-success btn-sm follow-button' %>
           (<%= pluralize(@medium.user.followers.count, 'follower') %>)<br />
@@ -57,10 +59,10 @@
     <p>
       <strong>Tags: </strong>
       <% if @medium.tags.present? %>
-        <% @medium&.tags[0...-1].each do |tag| %>
+        <% @medium.tags[0...-1].each do |tag| %>
           <%=link_to tag.name, tag %><%= + ", " %>
         <% end %>
-        <%=link_to @medium&.tags&.last.name, @medium&.tags&.last %>
+        <%=link_to @medium.tags.last.name, @medium.tags.last %>
       <% end %>
     </p>
 

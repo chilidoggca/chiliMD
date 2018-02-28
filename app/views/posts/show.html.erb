@@ -12,10 +12,12 @@
     <div class="linktoauthorshow">
       <%=link_to @post.user&.full_name, @post.user %><br />
       Created <%= @post.created_at.strftime("%b %d %Y") %><br />
-      Interests: <% @post.user&.tags[0...-1].each do |tag| %>
-        <%=link_to tag.name, tag %><%= + ", " %>
+      <% if @post.user.tags.present? %>
+        Interests: <% @post.user&.tags[0...-1].each do |tag| %>
+          <%=link_to tag&.name, tag %><%= + ", " %>
+        <% end %>
+        <%=link_to @post.user&.tags.last.name, @post.user&.tags.last %><br />
       <% end %>
-      <%=link_to @post.user&.tags.last.name, @post.user&.tags.last %><br />
       <% if current_user&.following?(@post.user) %>
         <%= link_to 'Unfollow', relationship_path(current_user.active_relationships.find_by(followed_id: @post.user)), method: :delete, class: 'btn btn-outline-success btn-sm follow-button' %>
         (<%= pluralize(@post.user.followers.count, 'follower') %>)<br />
@@ -49,10 +51,12 @@
 
   <p>
     <strong>Tags: </strong>
-    <% @post.tags[0...-1].each do |tag| %>
-      <%=link_to tag.name, tag %><%= + ", " %>
+    <% if @post.tags.present? %>
+      <% @post.tags[0...-1].each do |tag| %>
+        <%=link_to tag.name, tag %><%= + ", " %>
+      <% end %>
+      <%=link_to @post.tags.last.name, @post.tags.last %>
     <% end %>
-    <%=link_to @post.tags.last.name, @post.tags.last %>
   </p>
 
   <p>
