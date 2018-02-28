@@ -56,8 +56,9 @@
             <% @user&.tags[0...-1].each do |tag| %>
               <%=link_to tag&.name, tag %><%= + ", " %>
             <% end %>
-            <%=link_to @user&.tags&.last&.name, @user&.tags&.last %><br />
+            <%=link_to @user&.tags&.last&.name, @user&.tags&.last %>
           <% end %>
+          <br />
           <strong>Email:</strong> <%= @user.email %><br />
           <% if can?(:crud, @user) %>
             <%= link_to "Edit Profile", edit_user_registration_path, class: 'btn btn-warning' %>
