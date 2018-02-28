@@ -9,4 +9,15 @@ div.landing2 {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  .left {
+    height: 100px;
+    width: 100%;
+  }
+  .right {
+    min-width: 754px;
+    height: 100%;
+    background-image: url('/layout/app-window-2.png');
+    background-repeat: no-repeat;
+    background-position: right bottom;
+  }
 }
