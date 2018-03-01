@@ -40,7 +40,7 @@ gem 'font-awesome-rails'
 gem 'ckeditor', github: 'galetahub/ckeditor'
 gem 'refile', require: "refile/rails", github: 'refile/refile', branch: 'master'
 gem 'refile-mini_magick', github: 'refile/refile-mini_magick', branch: 'master'
-#gem 'sinatra', github: 'sinatra/sinatra'
+gem 'sinatra', github: 'sinatra/sinatra'
 
 # cocoon allows nested attributes but requires underscore/bootstrap
 gem 'underscore-rails'
