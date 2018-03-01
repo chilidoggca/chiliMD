@@ -2,8 +2,6 @@ document.addEventListener("DOMContentLoaded", function() {
   $("#reviewlists-sortable").sortable({
     placeholder: "ui-state-highlight",
     update: function(e, ui) {
-      // console.log($(this).sortable('serialize'));
-      // console.log($(this).data("url"));
       Rails.ajax({
         url: $(this).data("url"),
         type: "PATCH",
@@ -31,7 +29,6 @@ document.addEventListener("DOMContentLoaded", function() {
       {
         method: 'PATCH',
         headers: {
-          // 'Authorization': API_KEY,
           'Content-Type': 'application/json'
         },
         body: {
@@ -47,9 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
       node.addEventListener('focusout', e => {
         const id = e.target.dataset.reviewlistId;
         const startDate = new Date(e.currentTarget.value);
-        // console.log(e.currentTarget.value);
-        // console.log(e);
-        // console.log(startDate);
+
         $.ajax({
           url: `/reviewlists/${id}`,
           type: "PATCH",
@@ -63,23 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
           dataType: "json",
           contentType: 'application/json'
         });
-        // return fetch(
-        //   `/reviewlists/${id}`,
-        //   {
-        //     method: 'PATCH',
-        //     headers: {
-        //       // 'Authorization': API_KEY,
-        //       'Content-Type': 'application/json'
-        //     },
-        //     body: {
-        //       // 'id': id,
-        //       'reviewlist': {
-        //         'id': id,
-        //         'start_date': startDate
-        //       }
-        //     }
-        //   }
-        // )
+        
       });
   });
 

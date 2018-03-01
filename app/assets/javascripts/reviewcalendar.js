@@ -7,8 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
   // events;
   // console.log(events);
   $('#reviewcalendar').fullCalendar({
-    // events: events,
-    events: '/users/7/events.json',
+    events: `${$('#reviewcalendar').data('url')}/events.json`,
     eventColor: 'dodgerblue',
     allDayDefault: true,
     defaultView: 'month',
