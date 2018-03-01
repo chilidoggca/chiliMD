@@ -1,9 +1,12 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+chiliMD is a user-driven educational platform that enhances open and credible information-gathering, information-sharing, collaborative peer-review, and makes citing references a snap.  Built using Ruby on Rails, HTML/CSS, JavaScript, Bootstrap, jQuery, PostgreSQL, OAuth, and Chart Kick.
 
-Things you may want to cover:
+Simply clone this repo, run `rails db:create`, then run `psql chilimd_development < chilimd_backup.sql`.
+
+You may need to brew install minimagick if you do not have it installed locally, or the image thumbnails will not work.
+
+OAuth requires developer app keys from facebook and google.
 
 * Ruby version
 
