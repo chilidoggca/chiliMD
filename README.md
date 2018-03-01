@@ -1,4 +1,4 @@
-# README
+# chiliMD
 
 ## Description
 chiliMD is a user-driven educational platform that enhances open and credible information-gathering, information-sharing, collaborative peer-review, and makes citing references a snap.  Built using Ruby on Rails, HTML/CSS, JavaScript, Bootstrap, jQuery, PostgreSQL, OAuth, and Chart Kick.
