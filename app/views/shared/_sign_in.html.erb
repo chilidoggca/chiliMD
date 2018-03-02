@@ -19,8 +19,9 @@
   </a>
 </div>
 <div class="forgotpassword" style="text-align: center;">
-  <a href="/users/password/new"
-  style="font-size: 0.8em; font-weight: 500px; text-decoration: none; line-height: 0.8em;"
-  >Forgot password</a>
+  <a href="/users/password/new">Forgot password</a><br /><br />
 </div>
+<hr />
+Just looking around?
+<%=link_to 'Sign in as guest user', user_session_path(user: {email: 'd@d.com', password: 'supersecret'}), method: :post, class: 'btn btn-dark mt-2 lookingaround' %>
 <%#= render "devise/shared/links" %>
