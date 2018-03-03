@@ -32,6 +32,8 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
 gem 'omniauth-github'
 
+gem 'rack-cors', :require => 'rack/cors'
+
 gem 'jquery-rails'
 gem 'bootstrap'
 gem 'font-awesome-rails'
