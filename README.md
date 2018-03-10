@@ -11,17 +11,17 @@ In today's age of "fake news", credible and easy information sharing is more imp
 - Search by post, media type, tags, etc.
 - Add content to your review list.
 
-## Screen Shot
+## Screen Shots
 ![chiliMD Edit Post](/public/screenshot-3.jpg)
 A powerful WYSIWYG Editor makes creating content easier.
 
-![chiliMD Edit Post](/public/screenshot-4.jpg)
+![chiliMD Add References](/public/screenshot-4.jpg)
 Easily add references to posts with DOIs.
 
 ![chiliMD Search Feature](/public/screenshot-5.jpg)
 Responsive and powerful search feature by posts, media types, tags or users.
 
-![chiliMD Search Feature](/public/screenshot-1.jpg)
+![chiliMD Review List](/public/screenshot-1.jpg)
 Users can add content to their list for later review.
 
 ## Installation and Setup
