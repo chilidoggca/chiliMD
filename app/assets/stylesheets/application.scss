@@ -59,7 +59,7 @@ body {
   a:hover,a:active {
     color: white;
   }
-  a:not(.navbar-brand):not(.bar):before {
+  a.nav-underline:before {
     content: "";
     position: absolute;
     width: 100%;
@@ -73,7 +73,7 @@ body {
     -webkit-transition: all 0.3s ease-in-out 0s;
     transition: all 0.3s ease-in-out 0s;
   }
-  a:not(.navbar-brand):not(.greeting):not(:nth-last-child(2)):not(:last-child):hover:before {
+  a.nav-underline:hover:before {
     visibility: visible;
     -webkit-transform: scaleX(1);
     transform: scaleX(1);

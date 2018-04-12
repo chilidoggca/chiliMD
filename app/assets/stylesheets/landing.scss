@@ -1,17 +1,21 @@
 div.landing2 {
   position: absolute;
   z-index: -3;
-  top: 545px;
+  top: 555px;
   left: 0;
   width: 100%;
   background-image: linear-gradient(to bottom, paleturquoise, lightyellow);
-  height: 500px;
+  height: 600px;
   display: flex;
+  flex-direction: row;
   justify-content: space-around;
   align-items: center;
   .left {
-    height: 100px;
+    height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
   }
   .right {
     min-width: 754px;
@@ -19,5 +23,74 @@ div.landing2 {
     background-image: url('/layout/app-window-2.png');
     background-repeat: no-repeat;
     background-position: right bottom;
+  }
+}
+
+div.landing3 {
+  position: absolute;
+  z-index: -3;
+  top: 1145px;
+  left: 0;
+  width: 100%;
+  background-image: linear-gradient(to bottom, peachpuff, lavender);
+  height: 700px;
+  padding: 50px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  iframe {
+    width: 853px;
+    height: 480px;
+  }
+}
+
+@media screen and (max-width: 992px){
+  div.landing2 {
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    height: 900px;
+    .left{
+      height: 400px;
+    }
+    .right {
+      height: 500px;
+      width: 100%;
+      min-width: 600px;
+      background-size: contain;
+      background-position: right bottom;
+    }
+  }
+  div.landing3 {
+    top: 1445px;
+    height: 600px;
+    iframe {
+      width: 560px;
+      height: 315px;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  div.landing2 {
+    height: 700px;
+    .left{
+      height: 400px;
+    }
+    .right {
+      height: 300px;
+      width: 100%;
+      min-width: 320px;
+      background-size: contain;
+      background-position: right bottom;
+    }
+  }
+  div.landing3 {
+    top: 1245px;
+    height: 400px;
+    iframe {
+      width: 320px;
+      height: 180px;
+    }
   }
 }

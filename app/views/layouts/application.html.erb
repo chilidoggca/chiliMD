@@ -22,24 +22,27 @@
 
           <%= link_to raw('chiliMD<span class="appversion">alpha</span>'), root_path, class: "navbar-brand" %>
 
-          <%= link_to 'Posts', posts_path, class: "nav-link" %>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-          <%= link_to 'Media', media_path, class: "nav-link nav-left" %>
+            <%= link_to 'Posts', posts_path, class: "nav-link nav-underline" %>
 
-          <%= simple_form_for :content, method: :get, url: contents_path, wrapper: :inline_form, html: { class: 'form-inline' } do |f| %>
-            <select name="model_name" class="form-control navdropdownfield">
-              <option value="all">All</option>
-              <option value="posts">Posts</option>
-              <option value="media">Media</option>
-              <option value="images">Images</option>
-              <option value="audios">Audios</option>
-              <option value="videos">Videos</option>
-              <option value="tags">Tags</option>
-              <option value="users">Users</option>
-            </select>
-            <input class="form-control navsearchbar" name='search_term' type="search" placeholder="Search...">
-            <button class="btn searchbutton" type="submit"><%= fa_icon('search 2x') %></button>
-          <% end %>
+            <%= link_to 'Media', media_path, class: "nav-link nav-left nav-underline" %>
+
+            <%= simple_form_for :content, method: :get, url: contents_path, wrapper: :inline_form, html: { class: 'form-inline' } do |f| %>
+              <select name="model_name" class="form-control navdropdownfield">
+                <option value="all">All</option>
+                <option value="posts">Posts</option>
+                <option value="media">Media</option>
+                <option value="images">Images</option>
+                <option value="audios">Audios</option>
+                <option value="videos">Videos</option>
+                <option value="tags">Tags</option>
+                <option value="users">Users</option>
+              </select>
+              <input class="form-control navsearchbar" name='search_term' type="search" placeholder="Search...">
+              <button class="btn searchbutton" type="submit"><%= fa_icon('search 2x') %></button>
+            <% end %>
+          </div>
 
           <% if user_signed_in? %>
             <span class="nav-link">Hello, <%= link_to current_user.first_name, current_user %>!</span>
@@ -60,6 +63,7 @@
 
             <%= link_to 'Sign Up', new_user_registration_path, class: "nav-link", data: {toggle: "modal", target:"#signUpModal" }%>
           <% end %>
+
         </nav>
       </div>
       <div class="sidebar hidesidebar">
