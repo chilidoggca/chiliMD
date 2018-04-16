@@ -351,6 +351,12 @@ div.fbicon, div.ggicon {
   align-items: flex-end;
   font-size: 50px;
   font-weight: 500;
+  img.jumbo-logo {
+    margin: 20px;
+    width: 340px;
+    max-width: 90%;
+    image-rendering: crisp-edges;
+  }
   span.brandname-pt1 {
     background-image: linear-gradient(0deg, gold 25%, gray 30%, white 55%, white);
     -webkit-background-clip: text;
@@ -384,9 +390,15 @@ div.fbicon, div.ggicon {
 }
 
 @media screen and (max-width: 992px){
-    .nav-link.signin {
+    .nav-link.signin, .nav-link.hello-user {
       margin-right: 0px;
       margin-left: auto;
+    }
+}
+
+@media screen and (max-width: 440px){
+    .nav-link.hello-user {
+      display: none;
     }
 }
 

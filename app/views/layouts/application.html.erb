@@ -47,7 +47,7 @@
           </div>
 
           <% if user_signed_in? %>
-            <span class="nav-link">Hello, <%= link_to current_user.first_name, current_user %>!</span>
+            <span class="nav-link hello-user">Hello, <%= link_to current_user.first_name, current_user %>!</span>
 
             <%# if current_user.is_admin? %>
               <%#=link_to 'Dashboard', admin_dashboard_index_path, class: "nav-link" %>
