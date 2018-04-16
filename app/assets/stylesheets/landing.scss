@@ -34,7 +34,7 @@ div.landing3 {
   width: 100%;
   background-image: linear-gradient(to bottom, peachpuff, lavender);
   height: 700px;
-  padding: 50px 0px;
+  padding: 25px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -42,6 +42,41 @@ div.landing3 {
   iframe {
     width: 853px;
     height: 480px;
+  }
+}
+div.footerdiv {
+  position: absolute;
+  z-index: -3;
+  top: 1845px;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(to bottom, #7a2828, #a73737);
+  color: #fff;
+  padding: 25px;
+  text-align: center;
+  div.footericons {
+    display: flex;
+    justify-content: center;
+    div.portfolioicon {
+      content: '';
+      width: 50px;
+      height: 50px;
+      border-radius:100%;
+      background-image: url('https://avatars2.githubusercontent.com/u/32340800?s=460&v=4');
+      background-size: contain;
+    }
+    a:link, a:visited, a:active {
+      color: mistyrose;
+      opacity: 0.7;
+    }
+    a:hover {
+      color: #fff;
+      opacity: 1;
+    }
+    * {
+      margin: 25px;
+    }
   }
 }
 
@@ -69,16 +104,19 @@ div.landing3 {
       height: 315px;
     }
   }
+  div.footerdiv {
+    top: 2045px;
+  }
 }
 
 @media screen and (max-width: 600px) {
   div.landing2 {
-    height: 700px;
+    height: 800px;
     .left{
-      height: 400px;
+      height: 550px;
     }
     .right {
-      height: 300px;
+      height: 250px;
       width: 100%;
       min-width: 320px;
       background-size: contain;
@@ -86,11 +124,22 @@ div.landing3 {
     }
   }
   div.landing3 {
-    top: 1245px;
+    top: 1345px;
     height: 400px;
     iframe {
       width: 320px;
       height: 180px;
+    }
+  }
+  div.footerdiv {
+    top: 1745px;
+  }
+}
+
+@media screen and (max-width: 370px){
+  div.landing2 {
+    .left {
+      font-size: 15px;
     }
   }
 }

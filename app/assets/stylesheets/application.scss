@@ -382,3 +382,16 @@ div.fbicon, div.ggicon {
 .follow-button {
   font-size: 0.8em;
 }
+
+@media screen and (max-width: 992px){
+    .nav-link.signin {
+      margin-right: 0px;
+      margin-left: auto;
+    }
+}
+
+@media screen and (max-width: 370px){
+    .nav-link.signin {
+      display: none;
+    }
+}
