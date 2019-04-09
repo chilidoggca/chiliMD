@@ -25,7 +25,7 @@ Responsive and powerful search feature by posts, media types, tags or users.
 Users can add content to their list for later review.
 
 ## Installation and Setup
-* Simply clone this repo, run `rails db:create`, then run `psql chilimd_development < chilimd_backup.sql`. Finally, run `rails s`.
+* Simply clone this repo, run `bundle`, `rails db:create`, then run `psql chilimd_development < chilimd_backup.sql`. Finally, run `rails s`.
 * You may need to brew install minimagick if you do not have it installed locally, or the image thumbnails will not work.
 * You will need your own developer app keys from facebook and google to use OAuth.
 
