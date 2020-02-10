@@ -1,5 +1,5 @@
 # chiliMD
-http://chilimd.jackclee.com
+https://chilimd.jackclee.com
 
 ## Description
 In today's age of "fake news", credible and easy information sharing is more important than ever.  chiliMD is a user-driven educational platform that enhances open and credible information-gathering, information-sharing, collaborative peer-review, and makes citing references a snap.
@@ -26,15 +26,15 @@ Users can add content to their list for later review.
 
 ## Installation and Setup
 * Simply clone this repo, run `bundle`, `rails db:create`, then run `psql chilimd_development < chilimd_backup.sql`. Finally, run `rails s`.
-* You may need to brew install minimagick if you do not have it installed locally, or the image thumbnails will not work.
+* You may need to `brew install imagemagick` if you do not have ImageMagick installed locally, or the image thumbnails will not work.
 * You will need your own developer app keys from facebook and google to use OAuth.
 
 ## Technologies
-Back-end: Ruby on Rails, API, Ajax<br>
-Front-end: Action View, JavaScript ES6, HTML5, CSS/Sass, jQuery, Ajax, Bootstrap<br>
+Back-end: Ruby on Rails, Server Side Rendering, RESTful API<br>
+Front-end: Rails Action View, JavaScript ES6, HTML5, CSS/Sass, jQuery, Ajax, Bootstrap<br>
 Database: PostgreSQL, Active Record<br>
 Other technologies: OAuth, Refile, Chart Kick, Mechanize<br>
-Deployment: AWS (EC2, Route 53), NGINX<br>
+Deployment: AWS (EC2, Route 53), NGINX, LetsEncrypt<br>
 
 ## Reflection
 - I set out to do this project because I wanted to play with a large database with many tables that interact with each other in different ways. I learned a lot about designing an Entity Relationship Diagram and setting up polymorphic associations in Rails.
